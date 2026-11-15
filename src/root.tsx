@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
   useRouteLoaderData,
 } from 'react-router';
+import { supabaseMiddleware } from '~/middleware/supabase';
 import type { Route } from './+types/root';
 import { getColorMode } from './shared/actions';
 import './shared/styles';
@@ -25,6 +26,8 @@ export const links: Route.LinksFunction = () => [
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
+
+export const middleware: Route.MiddlewareFunction[] = [supabaseMiddleware];
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   return {
