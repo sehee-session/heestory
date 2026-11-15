@@ -11,7 +11,7 @@ export const thumbnail = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  aspectRatio: '4 / 3',
+  aspectRatio: '16 / 9',
   overflow: 'hidden',
   color: vars.color.textDim,
   fontFamily: 'monospace',
