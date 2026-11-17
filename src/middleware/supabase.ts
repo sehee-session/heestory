@@ -5,7 +5,7 @@ import {
   serializeCookieHeader,
 } from '@supabase/ssr';
 import type { MiddlewareFunction } from 'react-router';
-import { supabaseContext } from '~/shared/supabase';
+import { authUserContext } from '~/shared/actions';
 
 type PendingCookie = {
   name: string;
@@ -36,9 +36,26 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
     },
   );
 
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+  const claims = data?.claims;
 
-  context.set(supabaseContext, supabase);
+  const userMetadata = claims?.user_metadata;
+
+  context.set(
+    authUserContext,
+    claims?.sub
+      ? {
+          id: claims.sub,
+          email: typeof claims.email === 'string' ? claims.email : null,
+          user_metadata:
+            typeof userMetadata === 'object' &&
+            userMetadata !== null &&
+            !Array.isArray(userMetadata)
+              ? (userMetadata as Record<string, unknown>)
+              : {},
+        }
+      : null,
+  );
 
   const response = await next();
 

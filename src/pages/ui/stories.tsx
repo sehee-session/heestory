@@ -1,11 +1,14 @@
 import { Tabs } from '@base-ui/react/tabs';
 import { PencilLineIcon, RssIcon } from 'lucide-react';
+import { useLoaderData } from 'react-router';
 import { StoryCard } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
+import { authUserContext } from '~/shared/actions';
 import { PATHS } from '~/shared/constants';
 import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
+import type { Route } from './+types/stories';
 import * as styles from './stories.css';
 
 export const meta = () => [
@@ -22,7 +25,15 @@ const TAB = {
 
 const tabs = [{ label: 'Latest', value: TAB.LATEST, Icon: RssIcon }];
 
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const user = context.get(authUserContext);
+
+  return { user };
+};
+
 const Page = () => {
+  const { user } = useLoaderData<typeof loader>();
+
   return (
     <main>
       <Header
