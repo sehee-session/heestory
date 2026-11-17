@@ -21,8 +21,8 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
   const pendingHeaders: Record<string, string> = {};
 
   const supabase = createServerClient(
-    process.env.VITE_SUPABASE_URL!,
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY!,
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {

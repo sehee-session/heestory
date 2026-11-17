@@ -1,8 +1,37 @@
-import { useLocation } from 'react-router';
+import { Form, redirect, useLocation } from 'react-router';
 import { PATHS } from '~/shared/constants';
+import { supabaseContext } from '~/shared/supabase';
 import { Button, Terminal } from '~/shared/ui';
 import { Header } from '~/widgets/header';
+import type { Route } from './+types/sign-in';
 import * as styles from './sign-in.css';
+
+export const action = async ({ request, context }: Route.ActionArgs) => {
+  const supabase = context.get(supabaseContext);
+
+  if (!supabase) {
+    throw new Response('Supabase client not found', { status: 500 });
+  }
+
+  const redirectTo = new URL('/api/auth', request.url).toString();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo,
+    },
+  });
+
+  if (error) {
+    throw new Response(error.message, { status: 500 });
+  }
+
+  if (!data.url) {
+    throw new Response('OAuth URL not found', { status: 500 });
+  }
+
+  return redirect(data.url);
+};
 
 const Page = () => {
   const location = useLocation();
@@ -18,7 +47,7 @@ const Page = () => {
               type: 'command',
             },
             {
-              text: '401: authentication required',
+              text: '401: Unauthorized',
               type: 'error',
             },
             {
@@ -37,9 +66,11 @@ const Page = () => {
             with GitHub to continue your journey.
           </p>
           <div className={styles.actions}>
-            <Button to={PATHS.HOME}>
-              Continue with GitHub <span>→</span>
-            </Button>
+            <Form method="post">
+              <Button type="submit">
+                Continue with GitHub <span>→</span>
+              </Button>
+            </Form>
             <Button to={PATHS.HOME} variant="secondary">
               go home
             </Button>
