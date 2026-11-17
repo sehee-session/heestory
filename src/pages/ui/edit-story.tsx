@@ -1,9 +1,11 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import { formatDate, StoryForm } from '~/entities/story';
+import { requireAuth } from '~/shared/auth';
 import { useToggle } from '~/shared/hooks';
 import { Button, MarkdownToc, MarkdownViewer } from '~/shared/ui';
 import { Header } from '~/widgets/header';
+import type { Route } from './+types/edit-story';
 
 export const meta = [
   { title: `Edit Story` },
@@ -12,6 +14,12 @@ export const meta = [
     content: `Edit your Development Story.`,
   },
 ];
+
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const user = requireAuth(context);
+
+  return { user };
+};
 
 const Page = () => {
   const [preview, onTogglePreview] = useToggle();

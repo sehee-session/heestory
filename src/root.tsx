@@ -9,7 +9,7 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import { supabaseMiddleware } from '~/middleware/supabase';
-import { authUserContext } from '~/shared/actions';
+import { authUserContext } from '~/shared/auth';
 import type { Route } from './+types/root';
 import { getColorMode } from './shared/actions';
 import './shared/styles';

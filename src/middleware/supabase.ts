@@ -5,7 +5,7 @@ import {
   serializeCookieHeader,
 } from '@supabase/ssr';
 import type { MiddlewareFunction } from 'react-router';
-import { authUserContext } from '~/shared/actions';
+import { authUserContext } from '~/shared/auth';
 import { supabaseContext } from '~/shared/supabase/context';
 
 type PendingCookie = {
