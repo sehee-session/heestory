@@ -6,7 +6,7 @@ import { Button, MarkdownToc, MarkdownViewer } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 
 export const meta = [
-  { title: `Create Story` },
+  { title: `Write Story` },
   {
     name: 'description',
     content: `Write your Development Story.`,

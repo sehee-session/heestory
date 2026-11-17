@@ -6,6 +6,7 @@ import {
 } from '@supabase/ssr';
 import type { MiddlewareFunction } from 'react-router';
 import { authUserContext } from '~/shared/actions';
+import { supabaseContext } from '~/shared/supabase/context';
 
 type PendingCookie = {
   name: string;
@@ -56,6 +57,7 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
         }
       : null,
   );
+  context.set(supabaseContext, supabase);
 
   const response = await next();
 

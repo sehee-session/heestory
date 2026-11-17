@@ -1,13 +1,11 @@
-import { PencilLineIcon } from 'lucide-react';
 import { StoryCard } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
-import { PATHS } from '~/shared/constants';
-import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
 import { user } from '../lib/mock.user';
 import type { Route } from './+types/user';
 import * as styles from './user.css';
+import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = ({ params }: Route.MetaArgs) => [
   { title: `${params.id}'s history` },
@@ -24,11 +22,7 @@ const Page = ({ params }: Route.ComponentProps) => {
     <>
       <Header
         text={`${id}`}
-        actions={[
-          <Button key="write" variant="icon" to={PATHS.STORY.WRITE}>
-            <PencilLineIcon />
-          </Button>,
-        ]}
+        actions={[<WriteStoryNavigationButton key="write" />]}
       />
       <UserInfo {...user} />
       <div className={styles.list}>

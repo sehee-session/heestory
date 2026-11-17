@@ -17,9 +17,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
-    options: {
-      redirectTo,
-    },
+    options: { redirectTo },
   });
 
   if (error) {

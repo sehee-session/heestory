@@ -1,12 +1,11 @@
 import { Tabs } from '@base-ui/react/tabs';
-import { PencilLineIcon, RssIcon } from 'lucide-react';
+import { RssIcon } from 'lucide-react';
 import { StoryCard } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
-import { PATHS } from '~/shared/constants';
-import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
 import * as styles from './stories.css';
+import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = () => [
   { title: 'Stories | Seehistory' },
@@ -27,11 +26,7 @@ const Page = () => {
     <main>
       <Header
         text="stories"
-        actions={[
-          <Button key="write" variant="icon" to={PATHS.STORY.WRITE}>
-            <PencilLineIcon />
-          </Button>,
-        ]}
+        actions={[<WriteStoryNavigationButton key="write" />]}
       />
       <Tabs.Root className={styles.root} value={TAB.LATEST}>
         <Tabs.List className={styles.list}>
