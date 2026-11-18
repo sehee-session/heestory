@@ -28,6 +28,10 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
     env.SUPABASE_URL,
     env.SUPABASE_PUBLISHABLE_KEY,
     {
+      cookieOptions: {
+        httpOnly: true,
+        secure: !import.meta.env.DEV,
+      },
       cookies: {
         getAll() {
           return parseCookieHeader(request.headers.get('Cookie') ?? '');
