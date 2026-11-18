@@ -65,6 +65,13 @@ const Page = () => {
           </p>
           <div className={styles.actions}>
             <Form method="post">
+              <input
+                type="hidden"
+                name="returnTo"
+                value={
+                  new URLSearchParams(location.search).get('returnTo') ?? ''
+                }
+              />
               <Button type="submit">
                 Continue with GitHub <span>→</span>
               </Button>

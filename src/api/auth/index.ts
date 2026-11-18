@@ -3,6 +3,16 @@ import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/index';
 
+const getSafeReturnTo = (value: string | null) => {
+  if (!value) return null;
+
+  if (!value.startsWith('/') || value.startsWith('//')) {
+    return null;
+  }
+
+  return value;
+};
+
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const supabase = context.get(supabaseContext);
 
@@ -12,17 +22,17 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
+  const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
   if (!code) {
-    throw redirect(PATHS.HOME);
+    throw redirect(PATHS.AUTH.SIGN_IN);
   }
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    console.error('OAuth callback error:', error.message);
-    throw redirect('/sign-in');
+    throw redirect(PATHS.AUTH.SIGN_IN);
   }
 
-  return redirect(PATHS.HOME);
+  throw redirect(returnTo ?? PATHS.HOME);
 };

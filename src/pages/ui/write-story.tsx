@@ -9,14 +9,11 @@ import type { Route } from './+types/write-story';
 
 export const meta = [
   { title: `Write Story` },
-  {
-    name: 'description',
-    content: `Write your Development Story.`,
-  },
+  { name: 'description', content: `Write your Development Story.` },
 ];
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
-  const user = requireAuth(context);
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
+  const user = requireAuth(request, context);
 
   return { user };
 };
