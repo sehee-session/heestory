@@ -13,7 +13,15 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     throw new Response('Supabase client not found', { status: 500 });
   }
 
-  const redirectTo = new URL('/api/auth', request.url).toString();
+  const formData = await request.formData();
+  const returnTo = formData.get('returnTo');
+  const callbackUrl = new URL('/api/auth', request.url);
+
+  if (typeof returnTo === 'string') {
+    callbackUrl.searchParams.set('returnTo', returnTo);
+  }
+
+  const redirectTo = callbackUrl.toString();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
