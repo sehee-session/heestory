@@ -75,5 +75,6 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
     response.headers.set(key, value);
   }
 
+  response.headers.set('Cache-Control', 'private, no-store');
   return response;
 };
