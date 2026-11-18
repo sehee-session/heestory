@@ -1,4 +1,4 @@
-import { redirect, useLocation } from 'react-router';
+import { data, redirect, useLocation } from 'react-router';
 import { SignInForm } from '~/features/auth';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
@@ -11,12 +11,12 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
 
   if (!supabase) {
-    throw new Response('Supabase client not found', { status: 500 });
+    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
   }
 
   const formData = await request.formData();
   const returnTo = formData.get('returnTo');
-  const callbackUrl = new URL('/api/auth/sign-in', request.url);
+  const callbackUrl = new URL(PATHS.API.AUTH.SIGN_IN, request.url);
 
   if (typeof returnTo === 'string') {
     callbackUrl.searchParams.set('returnTo', returnTo);
@@ -24,20 +24,20 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const redirectTo = callbackUrl.toString();
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { data: oauthData, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
     options: { redirectTo },
   });
 
   if (error) {
-    throw new Response(error.message, { status: 500 });
+    return data({ error: error.message }, { status: 500 });
   }
 
-  if (!data.url) {
-    throw new Response('OAuth URL not found', { status: 500 });
+  if (!oauthData.url) {
+    return data({ error: 'OAuth URL not found' }, { status: 500 });
   }
 
-  return redirect(data.url);
+  return redirect(oauthData.url);
 };
 
 const Page = () => {

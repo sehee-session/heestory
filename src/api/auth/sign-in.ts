@@ -20,26 +20,42 @@ const getSafeReturnTo = (value: string | null) => {
   return value;
 };
 
+const redirectToSignIn = (
+  request: Request,
+  error: string,
+  returnTo: string | null,
+) => {
+  const url = new URL(PATHS.AUTH.SIGN_IN, request.url);
+
+  url.searchParams.set('error', error);
+
+  if (returnTo) {
+    url.searchParams.set('returnTo', returnTo);
+  }
+
+  return redirect(url.toString());
+};
+
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const supabase = context.get(supabaseContext);
-
-  if (!supabase) {
-    throw new Response('Supabase client not found', { status: 500 });
-  }
 
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
+  if (!supabase) {
+    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  }
+
   if (!code) {
-    throw redirect(PATHS.AUTH.SIGN_IN);
+    return redirectToSignIn(request, 'oauth_failed', returnTo);
   }
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    throw redirect(PATHS.AUTH.SIGN_IN);
+    return redirectToSignIn(request, 'oauth_failed', returnTo);
   }
 
-  throw redirect(returnTo ?? PATHS.HOME);
+  return redirect(returnTo ?? PATHS.HOME);
 };
