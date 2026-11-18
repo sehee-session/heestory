@@ -1,7 +1,7 @@
 import { data, redirect } from 'react-router';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
-import type { Route } from './+types/sign-in';
+import type { Route } from './+types/sign-out';
 
 export const action = async ({ context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
