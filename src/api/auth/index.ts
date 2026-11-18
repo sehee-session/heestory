@@ -6,7 +6,14 @@ import type { Route } from './+types/index';
 const getSafeReturnTo = (value: string | null) => {
   if (!value) return null;
 
-  if (!value.startsWith('/') || value.startsWith('//')) {
+  if (
+    !value.startsWith('/') ||
+    value.startsWith('//') ||
+    value.includes('\\') ||
+    [...value].some(
+      (char) => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127,
+    )
+  ) {
     return null;
   }
 
