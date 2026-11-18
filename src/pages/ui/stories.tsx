@@ -1,8 +1,8 @@
 import { Tabs } from '@base-ui/react/tabs';
 import { RssIcon } from 'lucide-react';
-import { SignOutForm } from '~/entities/auth';
 import { StoryCard } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
+import { SignOutForm } from '~/features/auth';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
 import * as styles from './stories.css';

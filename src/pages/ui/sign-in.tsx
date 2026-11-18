@@ -1,5 +1,5 @@
 import { redirect, useLocation } from 'react-router';
-import { SignInForm } from '~/entities/auth';
+import { SignInForm } from '~/features/auth';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import { Button, Terminal } from '~/shared/ui';

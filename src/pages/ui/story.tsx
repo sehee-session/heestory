@@ -1,6 +1,6 @@
-import { SignOutForm } from '~/entities/auth';
 import { formatDate } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
+import { SignOutForm } from '~/features/auth';
 import { MarkdownToc, MarkdownViewer } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { story } from '../lib/mock.story';
