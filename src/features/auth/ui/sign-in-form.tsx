@@ -19,7 +19,7 @@ export const SignInForm = () => {
 
     if (!error) return;
 
-    toast.error('로그인 인증 코드가 누락되었습니다.');
+    toast.error('로그인에 실패했습니다. 다시 시도해 주세요.');
 
     searchParams.delete('error');
     setSearchParams(searchParams, { replace: true });
