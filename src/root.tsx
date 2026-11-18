@@ -8,6 +8,8 @@ import {
   ScrollRestoration,
   useRouteLoaderData,
 } from 'react-router';
+import { supabaseMiddleware } from '~/middleware/supabase';
+import { authUserContext } from '~/shared/auth';
 import type { Route } from './+types/root';
 import { getColorMode } from './shared/actions';
 import './shared/styles';
@@ -26,13 +28,16 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
+export const middleware: Route.MiddlewareFunction[] = [supabaseMiddleware];
+
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
   return {
     colorMode: await getColorMode(request),
+    user: context.get(authUserContext),
   };
 };
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   const rootData = useRouteLoaderData<typeof loader>('root');
 
   return (
@@ -51,13 +56,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
+};
 
 export default function App() {
   return <Outlet />;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
   let message = 'Oops!';
   let details = 'An unexpected error occurred.';
   let stack: string | undefined;
@@ -84,4 +89,4 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       )}
     </main>
   );
-}
+};

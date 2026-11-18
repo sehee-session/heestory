@@ -5,4 +5,8 @@
   "compatibility_date": "2026-10-23",
   "observability": { "enabled": true },
   "previews": {},
+  "vars": {
+    "SUPABASE_URL": "https://sazualquewpogjaylbah.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_XwzIJ-eQdXKeJpZqG4QkAA_hhcr-W8Y",
+  },
 }

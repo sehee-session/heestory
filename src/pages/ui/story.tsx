@@ -1,12 +1,11 @@
-import { PencilLineIcon } from 'lucide-react';
 import { formatDate } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
-import { PATHS } from '~/shared/constants';
-import { Button, MarkdownToc, MarkdownViewer } from '~/shared/ui';
+import { MarkdownToc, MarkdownViewer } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { story } from '../lib/mock.story';
 import { user } from '../lib/mock.user';
 import * as styles from './story.css';
+import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = () => [
   { title: '' },
@@ -21,11 +20,7 @@ const Page = () => {
     <>
       <Header
         text="stories"
-        actions={[
-          <Button variant="icon" key="write" to={PATHS.STORY.WRITE}>
-            <PencilLineIcon />
-          </Button>,
-        ]}
+        actions={[<WriteStoryNavigationButton key="write" />]}
       />
       <div className={styles.root}>
         <div className={styles.thumbnail}>
