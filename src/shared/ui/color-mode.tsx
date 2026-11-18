@@ -7,6 +7,7 @@ export const ColorModeToggle = () => {
 
   return (
     <Button
+      aria-label="색상 모드 전환"
       variant="icon"
       type="button"
       onClick={toggle}

@@ -138,23 +138,6 @@ export const description = style({
   wordBreak: 'break-word',
 });
 
-export const closeButton = style({
-  display: 'flex',
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-
-  width: vars.size.lg,
-  height: vars.size.lg,
-  padding: 0,
-
-  border: 0,
-  borderRadius: vars.radius.md,
-  background: 'transparent',
-
-  cursor: 'pointer',
-});
-
 export const spinner = style({
   flexShrink: 0,
   animation: `${spin} 1s linear infinite`,

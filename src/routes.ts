@@ -19,7 +19,8 @@ export default [
 
   // backend
   // auth
-  route('api/auth', 'api/auth/index.ts'),
+  route('api/auth/sign-in', 'api/auth/sign-in.ts'),
+  route('api/auth/sign-out', 'api/auth/sign-out.ts'),
 
   //
   route('*', 'pages/ui/not-found.tsx'),

@@ -1,5 +1,6 @@
 import { formatDate } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
+import { SignOutForm } from '~/features/auth';
 import { MarkdownToc, MarkdownViewer } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { story } from '../lib/mock.story';
@@ -20,7 +21,10 @@ const Page = () => {
     <>
       <Header
         text="stories"
-        actions={[<WriteStoryNavigationButton key="write" />]}
+        actions={[
+          <WriteStoryNavigationButton key="write" />,
+          <SignOutForm key="sign-out" />,
+        ]}
       />
       <div className={styles.root}>
         <div className={styles.thumbnail}>

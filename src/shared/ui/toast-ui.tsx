@@ -14,6 +14,7 @@ import {
   type ToastItem as ToastItemType,
   type ToastType,
 } from '../lib/toast-store';
+import { Button } from './button';
 import * as styles from './toast-ui.css';
 
 type ToastIconProps = {
@@ -54,14 +55,14 @@ const ToastItem = ({ toast }: ToastItemProps) => {
         {description && <div className={styles.description}>{description}</div>}
       </div>
 
-      <button
+      <Button
+        variant="icon"
         type="button"
-        className={styles.closeButton}
         aria-label="토스트 닫기"
         onClick={() => removeToast(id)}
       >
         <XIcon size={16} />
-      </button>
+      </Button>
     </div>
   );
 };

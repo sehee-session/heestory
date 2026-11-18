@@ -13,4 +13,11 @@ export const PATHS = {
   AUTH: {
     SIGN_IN: '/sign-in',
   },
+
+  API: {
+    AUTH: {
+      SIGN_IN: '/api/auth/sign-in',
+      SIGN_OUT: '/api/auth/sign-out',
+    },
+  },
 } as const;

@@ -1,5 +1,6 @@
 import { StoryCard } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
+import { SignOutForm } from '~/features/auth';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
 import { user } from '../lib/mock.user';
@@ -22,7 +23,10 @@ const Page = ({ params }: Route.ComponentProps) => {
     <>
       <Header
         text={`${id}`}
-        actions={[<WriteStoryNavigationButton key="write" />]}
+        actions={[
+          <WriteStoryNavigationButton key="write" />,
+          <SignOutForm key="sign-out" />,
+        ]}
       />
       <UserInfo {...user} />
       <div className={styles.list}>

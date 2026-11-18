@@ -2,6 +2,7 @@ import { Tabs } from '@base-ui/react/tabs';
 import { RssIcon } from 'lucide-react';
 import { StoryCard } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
+import { SignOutForm } from '~/features/auth';
 import { Header } from '~/widgets/header';
 import { stories } from '../lib/mock.stories';
 import * as styles from './stories.css';
@@ -26,7 +27,10 @@ const Page = () => {
     <main>
       <Header
         text="stories"
-        actions={[<WriteStoryNavigationButton key="write" />]}
+        actions={[
+          <WriteStoryNavigationButton key="write" />,
+          <SignOutForm key="sign-out" />,
+        ]}
       />
       <Tabs.Root className={styles.root} value={TAB.LATEST}>
         <Tabs.List className={styles.list}>
