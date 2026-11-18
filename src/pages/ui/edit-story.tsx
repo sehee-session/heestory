@@ -33,11 +33,12 @@ const Page = () => {
             key="preview"
             title="preview"
             variant="icon"
+            aria-label="미리보기"
             onClick={onTogglePreview}
           >
             {preview ? <PencilLineIcon /> : <EyeIcon />}
           </Button>,
-          <Button key="save" title="save" variant="icon">
+          <Button key="save" title="save" variant="icon" aria-label="저장">
             <SaveIcon />
           </Button>,
         ]}
