@@ -1,6 +1,6 @@
 import { PencilLineIcon } from 'lucide-react';
 import { PATHS } from '~/shared/constants';
-import { useAuth } from '~/shared/hooks/use-auth';
+import { useAuth } from '~/shared/hooks';
 import { Button } from '~/shared/ui';
 
 export const WriteStoryNavigationButton = () => {

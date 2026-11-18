@@ -1,3 +1,4 @@
+import { SignOutForm } from '~/entities/auth';
 import { formatDate } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { MarkdownToc, MarkdownViewer } from '~/shared/ui';
@@ -20,7 +21,10 @@ const Page = () => {
     <>
       <Header
         text="stories"
-        actions={[<WriteStoryNavigationButton key="write" />]}
+        actions={[
+          <WriteStoryNavigationButton key="write" />,
+          <SignOutForm key="sign-out" />,
+        ]}
       />
       <div className={styles.root}>
         <div className={styles.thumbnail}>

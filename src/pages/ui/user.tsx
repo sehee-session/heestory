@@ -1,3 +1,4 @@
+import { SignOutForm } from '~/entities/auth';
 import { StoryCard } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { Header } from '~/widgets/header';
@@ -22,7 +23,10 @@ const Page = ({ params }: Route.ComponentProps) => {
     <>
       <Header
         text={`${id}`}
-        actions={[<WriteStoryNavigationButton key="write" />]}
+        actions={[
+          <WriteStoryNavigationButton key="write" />,
+          <SignOutForm key="sign-out" />,
+        ]}
       />
       <UserInfo {...user} />
       <div className={styles.list}>

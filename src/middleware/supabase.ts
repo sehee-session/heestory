@@ -7,7 +7,7 @@ import {
 import type { MiddlewareFunction } from 'react-router';
 import { authUserContext } from '~/shared/auth';
 import { cloudflareContext } from '~/shared/lib';
-import { supabaseContext } from '~/shared/supabase/context';
+import { supabaseContext } from '~/shared/supabase';
 
 type PendingCookie = {
   name: string;

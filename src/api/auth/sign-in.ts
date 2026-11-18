@@ -1,7 +1,7 @@
 import { redirect } from 'react-router';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
-import type { Route } from './+types/index';
+import type { Route } from './+types/sign-in';
 
 const getSafeReturnTo = (value: string | null) => {
   if (!value) return null;

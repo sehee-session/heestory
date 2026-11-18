@@ -1,4 +1,5 @@
-import { Form, redirect, useLocation } from 'react-router';
+import { redirect, useLocation } from 'react-router';
+import { SignInForm } from '~/entities/auth';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import { Button, Terminal } from '~/shared/ui';
@@ -15,7 +16,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const formData = await request.formData();
   const returnTo = formData.get('returnTo');
-  const callbackUrl = new URL('/api/auth', request.url);
+  const callbackUrl = new URL('/api/auth/sign-in', request.url);
 
   if (typeof returnTo === 'string') {
     callbackUrl.searchParams.set('returnTo', returnTo);
@@ -72,18 +73,7 @@ const Page = () => {
             with GitHub to continue your journey.
           </p>
           <div className={styles.actions}>
-            <Form method="post">
-              <input
-                type="hidden"
-                name="returnTo"
-                value={
-                  new URLSearchParams(location.search).get('returnTo') ?? ''
-                }
-              />
-              <Button type="submit">
-                Continue with GitHub <span>→</span>
-              </Button>
-            </Form>
+            <SignInForm />
             <Button to={PATHS.HOME} variant="secondary">
               go home
             </Button>
