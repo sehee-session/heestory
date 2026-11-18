@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, useActionData, useSearchParams } from 'react-router';
 import { PATHS } from '~/shared/constants';
 import { toast } from '~/shared/lib/toast';
-import { Button } from '~/shared/ui/button';
+import { Button } from '~/shared/ui';
 
 export const SignInForm = () => {
   const actionData = useActionData<{ error?: string }>();
