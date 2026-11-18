@@ -6,6 +6,7 @@ import {
 } from '@supabase/ssr';
 import type { MiddlewareFunction } from 'react-router';
 import { authUserContext } from '~/shared/auth';
+import { cloudflareContext } from '~/shared/lib';
 import { supabaseContext } from '~/shared/supabase/context';
 
 type PendingCookie = {
@@ -21,9 +22,11 @@ export const supabaseMiddleware: MiddlewareFunction<Response> = async (
   const pendingCookies: PendingCookie[] = [];
   const pendingHeaders: Record<string, string> = {};
 
+  const { env } = context.get(cloudflareContext);
+
   const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_PUBLISHABLE_KEY!,
+    env.SUPABASE_URL,
+    env.SUPABASE_PUBLISHABLE_KEY,
     {
       cookies: {
         getAll() {
