@@ -4,6 +4,7 @@ import { vars } from '../styles';
 export const root = style({
   color: vars.color.text,
   padding: vars.spacing.md,
+  whiteSpace: 'pre-wrap',
 });
 
 globalStyle(
