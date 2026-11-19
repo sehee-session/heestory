@@ -1,11 +1,16 @@
 import { data, redirect, useLocation } from 'react-router';
 import { SignInForm } from '~/features/auth';
+import { requireGuest } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import { Button, Terminal } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/sign-in';
 import * as styles from './sign-in.css';
+
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
+  requireGuest(request, context);
+};
 
 export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
