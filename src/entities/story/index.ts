@@ -1,3 +1,5 @@
+export * from './api/create-story';
+
 export * from './lib/format-date';
 
 export * from './model/types';
