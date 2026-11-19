@@ -31,7 +31,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
 
   if (!supabase) {
-    throw data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
+    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
   }
 
   const {
@@ -40,7 +40,10 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   } = await supabase.auth.getSession();
 
   if (error || !session) {
-    throw data({ message: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
+    return data(
+      { message: '인증 세션을 확인할 수 없습니다.' },
+      { status: 401 },
+    );
   }
 
   const { env } = context.get(cloudflareContext);
@@ -56,12 +59,16 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     content: string;
   }>();
 
+  if (title.length === 0) {
+    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
+  }
+
   const result = await client.request(CREATE_STORY, { title, content });
 
   const storyId = result.insertIntostoriesCollection.records[0]?.id;
 
   if (!storyId) {
-    throw data(
+    return data(
       { error: '스토리 저장 결과를 확인할 수 없습니다.' },
       { status: 500 },
     );
@@ -79,7 +86,7 @@ const Page = () => {
     defaultValues: { title: '', content: '' },
     onSubmit: async ({ value }) => {
       fetcher.submit(
-        { title: value.title, content: value.content },
+        { title: value.title.trim(), content: value.content.trim() },
         { method: 'post', encType: 'application/json' },
       );
     },
@@ -88,7 +95,16 @@ const Page = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (fetcher.state !== 'idle' || !fetcher.data?.success) {
+    if (fetcher.state !== 'idle' || !fetcher.data) {
+      return;
+    }
+
+    if (fetcher.data.error) {
+      toast.error(fetcher.data.error);
+      return;
+    }
+
+    if (!fetcher.data.success) {
       return;
     }
 
