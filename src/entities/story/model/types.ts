@@ -3,6 +3,8 @@ export type Story = {
   thumbnailUrl: string | null;
   title: string;
   summary: string;
-  createdAt: string;
   content: string;
+
+  createdAt: string;
+  updatedAt: string;
 };

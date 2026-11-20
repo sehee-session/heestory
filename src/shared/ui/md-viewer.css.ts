@@ -3,7 +3,6 @@ import { vars } from '../styles';
 
 export const root = style({
   color: vars.color.text,
-  whiteSpace: 'pre-wrap',
 });
 
 globalStyle(

@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 type CreateGraphqlClientParams = {
   url: string;
   apiKey: string;
-  accessToken: string;
+  accessToken?: string;
 };
 
 export const createGraphqlClient = ({
@@ -12,5 +12,8 @@ export const createGraphqlClient = ({
   accessToken,
 }: CreateGraphqlClientParams) =>
   new GraphQLClient(`${url}/graphql/v1`, {
-    headers: { apikey: apiKey, Authorization: `Bearer ${accessToken}` },
+    headers: {
+      apikey: apiKey,
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+    },
   });

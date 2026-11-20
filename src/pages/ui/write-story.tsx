@@ -145,6 +145,7 @@ const Page = () => {
           thumbnailUrl=""
           title={form.state.values.title}
           createdAt={new Date().toISOString()}
+          updatedAt={new Date().toISOString()}
           content={form.state.values.content}
         />
       ) : (

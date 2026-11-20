@@ -10,7 +10,6 @@ export const thumbnail = style({
   overflow: 'hidden',
   color: vars.color.textDim,
   fontFamily: 'monospace',
-  padding: `0 ${vars.spacing.md}`,
 });
 
 export const thumbnailImage = style({
