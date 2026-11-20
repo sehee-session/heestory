@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import React from 'react';
 import { data, useFetcher, useNavigate } from 'react-router';
-import { CREATE_STORY, formatDate, StoryForm } from '~/entities/story';
+import { CREATE_STORY, StoryDetail, StoryForm } from '~/entities/story';
 import { createGraphqlClient } from '~/shared/api';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
@@ -10,7 +10,7 @@ import { useToggle } from '~/shared/hooks';
 import { cloudflareContext } from '~/shared/lib';
 import { toast } from '~/shared/lib/toast';
 import { supabaseContext } from '~/shared/supabase';
-import { Button, MarkdownToc, MarkdownViewer } from '~/shared/ui';
+import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/write-story';
 
@@ -139,14 +139,14 @@ const Page = () => {
         ]}
       />
       {preview ? (
-        <>
-          <h1>{form.state.values.title}</h1>
-          <time dateTime={new Date().toISOString()}>
-            {formatDate(new Date().toISOString())}
-          </time>
-          <MarkdownViewer content={form.state.values.content} />
-          <MarkdownToc content={form.state.values.content} />
-        </>
+        <StoryDetail
+          id={''}
+          summary={''}
+          thumbnailUrl=""
+          title={form.state.values.title}
+          createdAt={new Date().toISOString()}
+          content={form.state.values.content}
+        />
       ) : (
         <StoryForm form={form} />
       )}

@@ -1,9 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
-import { formatDate, StoryForm } from '~/entities/story';
+import { StoryDetail, StoryForm } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { useToggle } from '~/shared/hooks';
-import { Button, MarkdownToc, MarkdownViewer } from '~/shared/ui';
+import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-story';
 
@@ -44,14 +44,14 @@ const Page = () => {
         ]}
       />
       {preview ? (
-        <>
-          <h1>{form.state.values.title}</h1>
-          <time dateTime={new Date().toISOString()}>
-            {formatDate(new Date().toISOString())}
-          </time>
-          <MarkdownViewer content={form.state.values.content} />
-          <MarkdownToc content={form.state.values.content} />
-        </>
+        <StoryDetail
+          id={''}
+          summary={''}
+          thumbnailUrl=""
+          title={form.state.values.title}
+          createdAt={new Date().toISOString()}
+          content={form.state.values.content}
+        />
       ) : (
         <StoryForm form={form} />
       )}

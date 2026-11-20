@@ -3,6 +3,7 @@ import { PATHS } from '~/shared/constants';
 import { formatDate } from '../lib/format-date';
 import type { Story } from '../model/types';
 import * as styles from './story-card.css';
+import { StoryThumbnail } from './story-thumbnail';
 
 export const StoryCard = ({
   id,
@@ -12,14 +13,7 @@ export const StoryCard = ({
   createdAt,
 }: Omit<Story, 'content'>) => (
   <Link to={PATHS.STORY.DETAIL(id)} className={styles.card}>
-    <div className={styles.thumbnail}>
-      {thumbnailUrl ? (
-        <img className={styles.thumbnailImage} src={thumbnailUrl} alt="" />
-      ) : (
-        <span>~/story</span>
-      )}
-    </div>
-
+    <StoryThumbnail thumbnailUrl={thumbnailUrl} />
     <div className={styles.content}>
       <time className={styles.date} dateTime={createdAt}>
         {formatDate(createdAt)}
