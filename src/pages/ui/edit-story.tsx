@@ -1,16 +1,21 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
-import { data, useLoaderData } from 'react-router';
+import React from 'react';
+import { data, useFetcher, useLoaderData, useNavigate } from 'react-router';
 import {
   GET_STORY,
   StoryDetail,
   StoryForm,
   type GetStoryQuery,
 } from '~/entities/story';
+import { MODIFY_STORY } from '~/entities/story/api/modify-story';
 import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
+import { PATHS } from '~/shared/constants/paths';
 import { useToggle } from '~/shared/hooks';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
+import { toast } from '~/shared/lib/toast';
+import { supabaseContext } from '~/shared/supabase';
 import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-story';
@@ -55,12 +60,99 @@ export const loader = async ({
   return { story, user };
 };
 
+export const action = async ({ request, context }: Route.ActionArgs) => {
+  requireAuth(request, context);
+
+  const supabase = context.get(supabaseContext);
+
+  if (!supabase) {
+    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
+  }
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (error || !session) {
+    return data(
+      { message: '인증 세션을 확인할 수 없습니다.' },
+      { status: 401 },
+    );
+  }
+
+  const { env } = context.get(cloudflareContext);
+
+  const client = createGraphqlClient({
+    url: env.SUPABASE_URL,
+    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
+    accessToken: session.access_token,
+  });
+
+  const { id, title, content } = await request.json<{
+    id: string;
+    title: string;
+    content: string;
+  }>();
+
+  if (title.length === 0) {
+    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
+  }
+
+  const result = await client.request(MODIFY_STORY, { id, title, content });
+
+  const storyId = result.updatestoriesCollection?.records[0]?.id;
+
+  if (!storyId) {
+    return data(
+      { error: '스토리 저장 결과를 확인할 수 없습니다.' },
+      { status: 500 },
+    );
+  }
+
+  return data({ success: true, storyId });
+};
+
 const Page = () => {
   const { story } = useLoaderData<typeof loader>();
   const [preview, onTogglePreview] = useToggle();
+
+  const fetcher = useFetcher();
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: { title: story?.title ?? '', content: story?.content ?? '' },
+    onSubmit: async ({ value }) => {
+      fetcher.submit(
+        {
+          id: story.id,
+          title: value.title,
+          content: value.content,
+        },
+        {
+          method: 'POST',
+          encType: 'application/json',
+        },
+      );
+    },
   });
+
+  React.useEffect(() => {
+    if (fetcher.state !== 'idle' || !fetcher.data) {
+      return;
+    }
+
+    if (fetcher.data.error) {
+      toast.error(fetcher.data.error);
+      return;
+    }
+
+    if (!fetcher.data.success) {
+      return;
+    }
+
+    toast.success('스토리가 수정되었습니다.');
+    navigate(PATHS.STORY.DETAIL(fetcher.data.storyId));
+  }, [fetcher.state, fetcher.data, navigate]);
 
   return (
     <>
@@ -76,7 +168,14 @@ const Page = () => {
           >
             {preview ? <PencilLineIcon /> : <EyeIcon />}
           </Button>,
-          <Button key="save" title="save" variant="icon" aria-label="저장">
+          <Button
+            key="save"
+            title="save"
+            variant="icon"
+            aria-label="저장"
+            onClick={() => form.handleSubmit()}
+            disabled={fetcher.state !== 'idle'}
+          >
             <SaveIcon />
           </Button>,
         ]}
