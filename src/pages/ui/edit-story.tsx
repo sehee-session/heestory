@@ -126,11 +126,11 @@ const Page = () => {
   const form = useForm({
     defaultValues: { title: story?.title ?? '', content: story?.content ?? '' },
     onSubmit: async ({ value }) => {
-      fetcher.submit(
         {
+          id: story.id,
           title: value.title.trim(),
           content: value.content.trim(),
-        },
+        }
         {
           method: 'POST',
           encType: 'application/json',
