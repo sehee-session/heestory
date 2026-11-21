@@ -40,10 +40,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   } = await supabase.auth.getSession();
 
   if (error || !session) {
-    return data(
-      { error: '인증 세션을 확인할 수 없습니다.' },
-      { status: 401 },
-    );
+    return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
   const { env } = context.get(cloudflareContext);
