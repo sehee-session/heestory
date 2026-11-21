@@ -8,13 +8,13 @@ export const StoryDetail = ({
   title,
   content,
   ...story
-}: Story) => {
+}: Partial<Story>) => {
   return (
     <div className={styles.root}>
-      <StoryThumbnail thumbnailUrl={thumbnailUrl} />
+      <StoryThumbnail thumbnailUrl={thumbnailUrl ?? ''} />
       <h1>{title}</h1>
       {/* <time dateTime={createdAt}>{formatDate(createdAt)}</time> */}
-      <MarkdownViewer content={content} />
+      <MarkdownViewer content={content ?? ''} />
     </div>
   );
 };

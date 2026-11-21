@@ -1,8 +1,16 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
-import { StoryDetail, StoryForm } from '~/entities/story';
+import { data, useLoaderData } from 'react-router';
+import {
+  GET_STORY,
+  StoryDetail,
+  StoryForm,
+  type GetStoryQuery,
+} from '~/entities/story';
+import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
 import { useToggle } from '~/shared/hooks';
+import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-story';
@@ -12,16 +20,46 @@ export const meta = [
   { name: 'description', content: `Edit your Development Story.` },
 ];
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({
+  request,
+  context,
+  params,
+}: Route.LoaderArgs) => {
   const user = requireAuth(request, context);
 
-  return { user };
+  const { env } = context.get(cloudflareContext);
+
+  const { id } = params;
+
+  if (!id) {
+    throw data('스토리 ID가 필요합니다.', { status: 400 });
+  }
+
+  const client = createGraphqlClient({
+    url: env.SUPABASE_URL,
+    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
+  });
+
+  const result = await client.request<GetStoryQuery>(GET_STORY, { id });
+
+  const story = result.storiesCollection?.edges[0]?.node;
+
+  if (!story) {
+    throw data('스토리를 찾을 수 없습니다.', { status: 404 });
+  }
+
+  if (story.user_key !== user.id) {
+    throw data('수정 권한이 없습니다.', { status: 403 });
+  }
+
+  return { story, user };
 };
 
 const Page = () => {
+  const { story } = useLoaderData<typeof loader>();
   const [preview, onTogglePreview] = useToggle();
   const form = useForm({
-    defaultValues: { title: '', content: '' },
+    defaultValues: { title: story?.title ?? '', content: story?.content ?? '' },
   });
 
   return (
@@ -45,11 +83,11 @@ const Page = () => {
       />
       {preview ? (
         <StoryDetail
-          id={''}
-          summary={''}
-          thumbnailUrl=""
+          id={story?.id ?? ''}
+          summary={story?.summary ?? ''}
+          thumbnailUrl={story?.thumbnailUrl ?? ''}
           title={form.state.values.title}
-          createdAt={new Date().toISOString()}
+          createdAt={story?.createdAt ?? ''}
           updatedAt={new Date().toISOString()}
           content={form.state.values.content}
         />

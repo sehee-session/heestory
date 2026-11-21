@@ -11,7 +11,7 @@ export const container = style({
   background: 'transparent',
 
   color: vars.color.text,
-  fontSize: vars.fontSize['2xl'],
+  fontSize: vars.fontSize.xl,
   fontWeight: vars.fontWeight.medium,
   lineHeight: 1.4,
   fontFamily: 'inherit',
