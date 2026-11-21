@@ -61,7 +61,7 @@ export const loader = async ({
 };
 
 export const action = async ({ request, context }: Route.ActionArgs) => {
-  requireAuth(request, context);
+  const user = requireAuth(request, context);
 
   const supabase = context.get(supabaseContext);
 
@@ -94,6 +94,10 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     title: string;
     content: string;
   }>();
+
+  if (user.id !== session.user.id) {
+    return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
+  }
 
   if (title.length === 0) {
     return data({ error: '제목을 입력해주세요.' }, { status: 400 });
