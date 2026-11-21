@@ -128,9 +128,8 @@ const Page = () => {
     onSubmit: async ({ value }) => {
       fetcher.submit(
         {
-          id: story.id,
-          title: value.title,
-          content: value.content,
+          title: value.title.trim(),
+          content: value.content.trim(),
         },
         {
           method: 'POST',
