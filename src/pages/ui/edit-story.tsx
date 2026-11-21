@@ -75,10 +75,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   } = await supabase.auth.getSession();
 
   if (error || !session) {
-    return data(
-      { error: '인증 세션을 확인할 수 없습니다.' },
-      { status: 401 },
-    );
+    return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
   const { env } = context.get(cloudflareContext);
@@ -126,11 +123,12 @@ const Page = () => {
   const form = useForm({
     defaultValues: { title: story?.title ?? '', content: story?.content ?? '' },
     onSubmit: async ({ value }) => {
+      fetcher.submit(
         {
           id: story.id,
           title: value.title.trim(),
           content: value.content.trim(),
-        }
+        },
         {
           method: 'POST',
           encType: 'application/json',
