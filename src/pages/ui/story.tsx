@@ -36,7 +36,6 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
 
   const story = result.storiesCollection?.edges[0]?.node;
 
-  console.log(story);
   if (!story) {
     throw data('스토리를 찾을 수 없습니다.', { status: 404 });
   }

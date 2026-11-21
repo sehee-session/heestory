@@ -9,7 +9,6 @@ export const card = style({
   color: 'inherit',
   textDecoration: 'none',
   transition: 'transform 150ms ease',
-  gap: vars.spacing.md,
 
   selectors: {
     '&:focus-visible': {
@@ -23,7 +22,7 @@ export const content = style({
   display: 'flex',
   flexDirection: 'column',
   gap: vars.spacing.sm,
-  padding: `0 ${vars.spacing.md}`,
+  padding: vars.spacing.md,
 });
 
 export const title = style({

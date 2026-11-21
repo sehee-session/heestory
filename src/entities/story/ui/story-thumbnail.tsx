@@ -5,11 +5,13 @@ export const StoryThumbnail = ({
 }: {
   thumbnailUrl: string | null;
 }) => (
-  <div className={styles.thumbnail}>
-    {thumbnailUrl ? (
-      <img className={styles.thumbnailImage} src={thumbnailUrl} alt="" />
-    ) : (
-      <span>~/story</span>
-    )}
-  </div>
+  <img
+    className={styles.thumbnail}
+    src={thumbnailUrl || '/no-image.png'}
+    alt=""
+    onError={(event) => {
+      event.currentTarget.onerror = null;
+      event.currentTarget.src = '/no-image.png';
+    }}
+  />
 );
