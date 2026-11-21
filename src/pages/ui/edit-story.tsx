@@ -3,11 +3,10 @@ import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import React from 'react';
 import { data, useFetcher, useLoaderData, useNavigate } from 'react-router';
 import {
-  GET_STORY,
+  createStoryRepository,
   MODIFY_STORY,
   StoryDetail,
   StoryForm,
-  type GetStoryQuery,
 } from '~/entities/story';
 import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
@@ -40,14 +39,12 @@ export const loader = async ({
     throw data('스토리 ID가 필요합니다.', { status: 400 });
   }
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
   });
 
-  const result = await client.request<GetStoryQuery>(GET_STORY, { id });
-
-  const story = result.storiesCollection?.edges[0]?.node;
+  const story = await storyRepository.getStoryById(id);
 
   if (!story) {
     throw data('스토리를 찾을 수 없습니다.', { status: 404 });
