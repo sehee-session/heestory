@@ -89,11 +89,11 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     accessToken: session.access_token,
   });
 
-  const { id, title, content } = await request.json<{
+  const { id, title, content } = (await request.json()) as {
     id: string;
     title: string;
     content: string;
-  }>();
+  };
 
   if (title.length === 0) {
     return data({ error: '제목을 입력해주세요.' }, { status: 400 });
