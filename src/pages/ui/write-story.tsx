@@ -2,8 +2,11 @@ import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import React from 'react';
 import { data, useFetcher, useNavigate } from 'react-router';
-import { CREATE_STORY, StoryDetail, StoryForm } from '~/entities/story';
-import { createGraphqlClient } from '~/shared/api';
+import {
+  createStoryRepository,
+  StoryDetail,
+  StoryForm,
+} from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
@@ -29,7 +32,6 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   requireAuth(request, context);
 
   const supabase = context.get(supabaseContext);
-
   if (!supabase) {
     return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
   }
@@ -45,7 +47,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const { env } = context.get(cloudflareContext);
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
     accessToken: session.access_token,
@@ -60,9 +62,9 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '제목을 입력해주세요.' }, { status: 400 });
   }
 
-  const result = await client.request(CREATE_STORY, { title, content });
+  const result = await storyRepository.createStory({ title, content });
 
-  const storyId = result.insertIntostoriesCollection.records[0]?.id;
+  const storyId = result?.id;
 
   if (!storyId) {
     return data(
@@ -71,10 +73,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     );
   }
 
-  return data({
-    success: true,
-    storyId,
-  });
+  return data({ success: true, storyId });
 };
 
 const Page = () => {

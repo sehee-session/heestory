@@ -4,11 +4,9 @@ import React from 'react';
 import { data, useFetcher, useLoaderData, useNavigate } from 'react-router';
 import {
   createStoryRepository,
-  MODIFY_STORY,
   StoryDetail,
   StoryForm,
 } from '~/entities/story';
-import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants/paths';
 import { useToggle } from '~/shared/hooks';
@@ -77,7 +75,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const { env } = context.get(cloudflareContext);
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
     accessToken: session.access_token,
@@ -97,9 +95,9 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '제목을 입력해주세요.' }, { status: 400 });
   }
 
-  const result = await client.request(MODIFY_STORY, { id, title, content });
+  const result = await storyRepository.modifyStory({ id, title, content });
 
-  const storyId = result.updatestoriesCollection?.records[0]?.id;
+  const storyId = result?.id;
 
   if (!storyId) {
     return data(
