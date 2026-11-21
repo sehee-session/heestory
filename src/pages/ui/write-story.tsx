@@ -54,10 +54,10 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     accessToken: session.access_token,
   });
 
-  const { title, content } = await request.json<{
+  const { title, content } = (await request.json()) as {
     title: string;
     content: string;
-  }>();
+  };
 
   if (title.length === 0) {
     return data({ error: '제목을 입력해주세요.' }, { status: 400 });
