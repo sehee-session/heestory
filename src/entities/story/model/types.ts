@@ -17,12 +17,3 @@ export type GetStoryQuery = {
     }[];
   } | null;
 };
-
-export type CreateStoryInput = {
-  title: string;
-  content: string;
-};
-
-export type ModifyStoryInput = CreateStoryInput & {
-  id: string;
-};

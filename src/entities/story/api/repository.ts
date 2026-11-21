@@ -1,10 +1,7 @@
 import { createGraphqlClient } from '~/shared/api';
-import type {
-  CreateStoryInput,
-  GetStoryQuery,
-  ModifyStoryInput,
-  Story,
-} from '../model/types';
+import type { CreateStorySchema } from '../model/create-story-schema';
+import type { GetStoryQuery, Story } from '../model/types';
+import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY } from './create-story';
 import { GET_STORY } from './fetch-story';
 import { MODIFY_STORY } from './modify-story';
@@ -29,7 +26,7 @@ export const createStoryRepository = ({
       return result.storiesCollection?.edges[0]?.node ?? null;
     },
 
-    createStory: async ({ title, content }: CreateStoryInput) => {
+    createStory: async ({ title, content }: CreateStorySchema) => {
       const result = await client.request<{
         insertIntostoriesCollection: { records: Story[] };
       }>(CREATE_STORY, { title, content });
@@ -37,7 +34,7 @@ export const createStoryRepository = ({
       return result.insertIntostoriesCollection.records[0] ?? null;
     },
 
-    modifyStory: async ({ id, title, content }: ModifyStoryInput) => {
+    modifyStory: async ({ id, title, content }: UpdateStorySchema) => {
       const result = await client.request<{
         updateIntostoriesCollection: { records: Story[] };
       }>(MODIFY_STORY, { id, title, content });
