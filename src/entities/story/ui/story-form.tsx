@@ -8,7 +8,7 @@ export const StoryForm = ({
   ...props
 }: {
   form: StoryFormApi;
-  props?: React.HTMLAttributes<HTMLFormElement>;
+} & React.FormHTMLAttributes<HTMLFormElement>
 }) => {
   const ref = React.useRef<HTMLTextAreaElement>(null);
 
