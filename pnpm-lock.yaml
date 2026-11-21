@@ -32,11 +32,11 @@ importers:
         specifier: ^0.5.7
         version: 0.5.7(@vanilla-extract/css@1.21.3)
       graphql:
-        specifier: ^17.1.0
-        version: 17.1.0
+        specifier: ^16.0.0
+        version: 16.15.0
       graphql-request:
         specifier: ^7.4.0
-        version: 7.4.0(graphql@17.1.0)
+        version: 7.4.0(graphql@16.15.0)
       lucide-react:
         specifier: ^1.66.0
         version: 1.66.0(@types/react@19.3.0)(react@19.3.1)
@@ -2606,12 +2606,12 @@ packages:
     peerDependencies:
       graphql: 14 - 16
 
-  graphql@17.1.0:
+  graphql@16.15.0:
     resolution:
       {
-        integrity: sha512-JKCOa7rSQNrket/JFhuua86hljUO+IIpyUHfKxlKD6FEfbrLX8jc1FDrA0KPKI+s8OspBCF/5npYccAICHXPpQ==,
+        integrity: sha512-32kz9FecohDiC/tgcViwnRXM7HFBVTPiW7pHO+DikKOI5KjhU/jNULOReXsrFqt2WAYbE9xFXsTffJw6iTO8qw==,
       }
-    engines: { node: ^22.0.0 || ^24.0.0 || >=26.0.0 }
+    engines: { node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0 }
 
   has-bigints@1.1.0:
     resolution:
@@ -5119,9 +5119,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@graphql-typed-document-node/core@3.2.0(graphql@17.1.0)':
+  '@graphql-typed-document-node/core@3.2.0(graphql@16.15.0)':
     dependencies:
-      graphql: 17.1.0
+      graphql: 16.15.0
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -6401,12 +6401,12 @@ snapshots:
 
   gopd@1.2.0: {}
 
-  graphql-request@7.4.0(graphql@17.1.0):
+  graphql-request@7.4.0(graphql@16.15.0):
     dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@17.1.0)
-      graphql: 17.1.0
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.15.0)
+      graphql: 16.15.0
 
-  graphql@17.1.0: {}
+  graphql@16.15.0: {}
 
   has-bigints@1.1.0: {}
 

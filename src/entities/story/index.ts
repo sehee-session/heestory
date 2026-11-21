@@ -1,5 +1,6 @@
 export * from './api/create-story';
 export * from './api/fetch-story';
+export * from './api/modify-story';
 
 export * from './lib/format-date';
 

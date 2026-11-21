@@ -4,11 +4,11 @@ import React from 'react';
 import { data, useFetcher, useLoaderData, useNavigate } from 'react-router';
 import {
   GET_STORY,
+  MODIFY_STORY,
   StoryDetail,
   StoryForm,
   type GetStoryQuery,
 } from '~/entities/story';
-import { MODIFY_STORY } from '~/entities/story/api/modify-story';
 import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants/paths';
