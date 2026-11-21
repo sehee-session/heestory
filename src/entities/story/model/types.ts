@@ -9,11 +9,3 @@ export type Story = {
   createdAt: string;
   updatedAt: string;
 };
-
-export type GetStoryQuery = {
-  storiesCollection: {
-    edges: {
-      node: Story;
-    }[];
-  } | null;
-};

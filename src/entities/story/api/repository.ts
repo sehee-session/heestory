@@ -1,6 +1,6 @@
 import { createGraphqlClient } from '~/shared/api';
 import type { CreateStorySchema } from '../model/create-story-schema';
-import type { GetStoryQuery, Story } from '../model/types';
+import type { Story } from '../model/types';
 import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY } from './create-story';
 import { GET_STORY } from './fetch-story';
@@ -21,7 +21,13 @@ export const createStoryRepository = ({
 
   return {
     getStoryById: async (id?: string) => {
-      const result = await client.request<GetStoryQuery>(GET_STORY, { id });
+      const result = await client.request<{
+        storiesCollection: {
+          edges: {
+            node: Story;
+          }[];
+        } | null;
+      }>(GET_STORY, { id });
 
       return result.storiesCollection?.edges[0]?.node ?? null;
     },
