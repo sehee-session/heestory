@@ -2,7 +2,7 @@ import { data, useLoaderData } from 'react-router';
 import { GET_STORY, StoryDetail } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
-import { createGraphqlClient } from '~/shared/api/graphql';
+import { createGraphqlClient } from '~/shared/api';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { MarkdownToc } from '~/shared/ui';
 import { Header } from '~/widgets/header';
