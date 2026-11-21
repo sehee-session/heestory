@@ -6,6 +6,7 @@ import {
   createStoryRepository,
   StoryDetail,
   StoryForm,
+  updateStorySchema,
 } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants/paths';
@@ -73,6 +74,24 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
+  if (user.id !== session.user.id) {
+    return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
+  }
+
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
+  }
+
+  const parsed = updateStorySchema.safeParse(body);
+
+  if (!parsed.success) {
+    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
+  }
+
   const { env } = context.get(cloudflareContext);
 
   const storyRepository = createStoryRepository({
@@ -81,32 +100,16 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     accessToken: session.access_token,
   });
 
-  const { id, title, content } = (await request.json()) as {
-    id: string;
-    title: string;
-    content: string;
-  };
+  const result = await storyRepository.updateStory(parsed.data);
 
-  if (user.id !== session.user.id) {
-    return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
-  }
-
-  if (title.length === 0) {
-    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
-  }
-
-  const result = await storyRepository.modifyStory({ id, title, content });
-
-  const storyId = result?.id;
-
-  if (!storyId) {
+  if (!result?.id) {
     return data(
       { error: '스토리 저장 결과를 확인할 수 없습니다.' },
       { status: 500 },
     );
   }
 
-  return data({ success: true, storyId });
+  return data({ success: true, storyId: result.id });
 };
 
 const Page = () => {

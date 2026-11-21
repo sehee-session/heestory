@@ -4,6 +4,7 @@ import React from 'react';
 import { data, useFetcher, useNavigate } from 'react-router';
 import {
   createStoryRepository,
+  createStorySchema,
   StoryDetail,
   StoryForm,
 } from '~/entities/story';
@@ -32,6 +33,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   requireAuth(request, context);
 
   const supabase = context.get(supabaseContext);
+
   if (!supabase) {
     return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
   }
@@ -45,6 +47,20 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
+  }
+
+  const parsed = createStorySchema.safeParse(body);
+
+  if (!parsed.success) {
+    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
+  }
+
   const { env } = context.get(cloudflareContext);
 
   const storyRepository = createStoryRepository({
@@ -53,27 +69,16 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     accessToken: session.access_token,
   });
 
-  const { title, content } = (await request.json()) as {
-    title: string;
-    content: string;
-  };
+  const result = await storyRepository.createStory(parsed.data);
 
-  if (title.length === 0) {
-    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
-  }
-
-  const result = await storyRepository.createStory({ title, content });
-
-  const storyId = result?.id;
-
-  if (!storyId) {
+  if (!result?.id) {
     return data(
       { error: '스토리 저장 결과를 확인할 수 없습니다.' },
       { status: 500 },
     );
   }
 
-  return data({ success: true, storyId });
+  return data({ success: true, storyId: result.id });
 };
 
 const Page = () => {

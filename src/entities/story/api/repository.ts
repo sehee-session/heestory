@@ -4,7 +4,7 @@ import type { GetStoryQuery, Story } from '../model/types';
 import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY } from './create-story';
 import { GET_STORY } from './fetch-story';
-import { MODIFY_STORY } from './modify-story';
+import { UPDATE_STORY } from './update-story';
 
 type StoryRepositoryConfig = {
   url: string;
@@ -34,10 +34,10 @@ export const createStoryRepository = ({
       return result.insertIntostoriesCollection.records[0] ?? null;
     },
 
-    modifyStory: async ({ id, title, content }: UpdateStorySchema) => {
+    updateStory: async ({ id, title, content }: UpdateStorySchema) => {
       const result = await client.request<{
         updateIntostoriesCollection: { records: Story[] };
-      }>(MODIFY_STORY, { id, title, content });
+      }>(UPDATE_STORY, { id, title, content });
 
       return result.updateIntostoriesCollection.records[0] ?? null;
     },
