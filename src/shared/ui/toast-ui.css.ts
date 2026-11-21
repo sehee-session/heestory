@@ -24,9 +24,7 @@ const fadeOut = keyframes({
 });
 
 const spin = keyframes({
-  to: {
-    transform: 'rotate(360deg)',
-  },
+  to: { transform: 'rotate(360deg)' },
 });
 
 export const viewport = style({
@@ -50,7 +48,7 @@ export const viewport = style({
 
 // 겹쳐진 토스트 간격
 globalStyle(`${viewport} > * + *`, {
-  marginBottom: '-2.5rem',
+  marginBottom: `calc(${vars.size['2xl']} * -1)`,
 });
 
 globalStyle(`${viewport}:hover > * + *`, {
@@ -115,6 +113,15 @@ export const toast = style({
     },
   },
 });
+
+globalStyle(`${toast} [data-type="success"]`, {
+  color: vars.color.success,
+});
+globalStyle(`${toast} [data-type="default"], ${toast} [data-type="info"]`, {
+  color: vars.color.text,
+});
+globalStyle(`${toast} [data-type="error"]`, { color: vars.color.error });
+globalStyle(`${toast} [data-type="warning"]`, {});
 
 export const content = style({
   display: 'flex',

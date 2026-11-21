@@ -47,7 +47,7 @@ const ToastItem = ({ toast }: ToastItemProps) => {
       data-type={type}
       data-state={toast.visible ? 'open' : 'closing'}
     >
-      <ToastIcon type={type} />
+      <ToastIcon type={type} data-type={type} />
 
       <div className={styles.content}>
         <div className={styles.message}>{message}</div>
@@ -67,7 +67,10 @@ const ToastItem = ({ toast }: ToastItemProps) => {
   );
 };
 
-const ToastIcon = ({ type }: ToastIconProps) => {
+const ToastIcon = ({
+  type,
+  ...props
+}: ToastIconProps & React.HTMLAttributes<SVGElement>) => {
   const iconProps = {
     size: 16,
     strokeWidth: 2,
@@ -76,19 +79,25 @@ const ToastIcon = ({ type }: ToastIconProps) => {
 
   switch (type) {
     case 'info':
-      return <InfoIcon {...iconProps} />;
+      return <InfoIcon {...iconProps} {...props} />;
 
     case 'success':
-      return <CheckCircle2Icon {...iconProps} />;
+      return <CheckCircle2Icon {...iconProps} {...props} />;
 
     case 'error':
-      return <CircleAlertIcon {...iconProps} />;
+      return <CircleAlertIcon {...iconProps} {...props} />;
 
     case 'warning':
-      return <TriangleAlertIcon {...iconProps} />;
+      return <TriangleAlertIcon {...iconProps} {...props} />;
 
     case 'loading':
-      return <LoaderCircleIcon {...iconProps} className={styles.spinner} />;
+      return (
+        <LoaderCircleIcon
+          {...iconProps}
+          {...props}
+          className={styles.spinner}
+        />
+      );
 
     default:
       return null;

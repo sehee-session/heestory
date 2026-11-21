@@ -3,11 +3,16 @@ import { Input, MarkdownHelper, TextArea } from '~/shared/ui';
 import type { StoryFormApi } from '../lib/type';
 import * as styles from './story-form.css';
 
-export const StoryForm = ({ form }: { form: StoryFormApi }) => {
+export const StoryForm = ({
+  form,
+  ...props
+}: {
+  form: StoryFormApi;
+} & React.FormHTMLAttributes<HTMLFormElement>) => {
   const ref = React.useRef<HTMLTextAreaElement>(null);
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} {...props}>
       <form.Field
         name="title"
         children={(field) => (

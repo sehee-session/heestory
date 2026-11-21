@@ -22,6 +22,8 @@
     "@tanstack/react-form": "^1.33.5",
     "@vanilla-extract/css": "^1.21.3",
     "@vanilla-extract/recipes": "^0.5.7",
+    "graphql": "^16.0.0",
+    "graphql-request": "^7.4.0",
     "lucide-react": "^1.66.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

@@ -3,6 +3,17 @@ export type Story = {
   thumbnailUrl: string | null;
   title: string;
   summary: string;
-  createdAt: string;
   content: string;
+  user_key: string;
+
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetStoryQuery = {
+  storiesCollection: {
+    edges: {
+      node: Story;
+    }[];
+  } | null;
 };
