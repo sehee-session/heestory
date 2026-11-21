@@ -89,11 +89,11 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     accessToken: session.access_token,
   });
 
-  const { id, title, content } = await request.json<{
+  const { id, title, content } = (await request.json()) as {
     id: string;
     title: string;
     content: string;
-  }>();
+  };
 
   if (user.id !== session.user.id) {
     return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
