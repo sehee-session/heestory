@@ -26,7 +26,7 @@ export const SignInForm = () => {
   }, [searchParams, setSearchParams]);
 
   return (
-    <Form method="post" action={PATHS.AUTH.SIGN_IN}>
+    <Form method="post" action={PATHS.API.AUTH.SIGN_IN}>
       <input
         type="hidden"
         name="returnTo"

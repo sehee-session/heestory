@@ -18,6 +18,7 @@ export const PATHS = {
     AUTH: {
       SIGN_IN: '/api/auth/sign-in',
       SIGN_OUT: '/api/auth/sign-out',
+      CALLBACK: '/api/auth/callback',
     },
   },
 } as const;
