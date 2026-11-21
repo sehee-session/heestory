@@ -41,7 +41,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   if (error || !session) {
     return data(
-      { message: '인증 세션을 확인할 수 없습니다.' },
+      { error: '인증 세션을 확인할 수 없습니다.' },
       { status: 401 },
     );
   }
