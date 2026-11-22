@@ -1,19 +1,19 @@
 import { Link } from 'react-router';
+import type { StoryAuthor } from '~/entities/story';
 import { PATHS } from '~/shared/constants';
-import type { User } from '../model/types';
 import * as styles from './user-author.css';
 
-type UserAuthorProps = Pick<User, 'id' | 'name' | 'nickname' | 'avatarUrl'>;
+type UserAuthorProps = Pick<StoryAuthor, 'username' | 'avatarUrl' | 'id'>;
 
-export const UserAuthor = ({ id, name, avatarUrl }: UserAuthorProps) => (
+export const UserAuthor = ({ id, username, avatarUrl }: UserAuthorProps) => (
   <Link to={PATHS.USERS.STORY(id)} className={styles.author}>
     {avatarUrl ? (
       <img className={styles.avatar} src={avatarUrl} alt="" />
     ) : (
       <span className={styles.avatarFallback}>
-        {name.charAt(0).toUpperCase()}
+        {username?.charAt(0).toUpperCase()}
       </span>
     )}
-    <span className={styles.name}>{name}</span>
+    <span className={styles.username}>{username}</span>
   </Link>
 );

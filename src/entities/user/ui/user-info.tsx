@@ -1,20 +1,13 @@
-import type { User } from '../model/types';
+import type { StoryAuthor } from '~/entities/story';
 import * as styles from './user-info.css';
 
-type UserInfoProps = Pick<User, 'name' | 'nickname' | 'avatarUrl' | 'intro'>;
+type UserInfoProps = Partial<Pick<StoryAuthor, 'username' | 'avatarUrl'>>;
 
-export const UserInfo = ({
-  name,
-  nickname,
-  avatarUrl,
-  intro,
-}: UserInfoProps) => (
+export const UserInfo = ({ username, avatarUrl }: UserInfoProps) => (
   <section className={styles.root}>
     <img className={styles.avatar} src={avatarUrl ?? ''} alt="" />
     <div className={styles.content}>
-      <h2 className={styles.name}>{name}</h2>
-      <span className={styles.nickname}>~/{nickname}</span>
-      <p className={styles.intro}>{intro}</p>
+      <h2 className={styles.username}>{username}</h2>
     </div>
   </section>
 );

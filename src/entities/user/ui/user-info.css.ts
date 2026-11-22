@@ -21,20 +21,20 @@ export const content = style({
   gap: vars.spacing.xs,
 });
 
-export const name = style({
+export const username = style({
   fontSize: vars.fontSize.lg,
   fontWeight: vars.fontWeight.semibold,
   color: vars.color.text,
 });
 
-export const nickname = style({
-  fontSize: vars.fontSize.sm,
-  color: vars.color.textDim,
-  fontFamily: 'monospace',
-});
+// export const nickname = style({
+//   fontSize: vars.fontSize.sm,
+//   color: vars.color.textDim,
+//   fontFamily: 'monospace',
+// });
 
-export const intro = style({
-  fontSize: vars.fontSize.md,
-  color: vars.color.text,
-  lineHeight: 1.5,
-});
+// export const intro = style({
+//   fontSize: vars.fontSize.md,
+//   color: vars.color.text,
+//   lineHeight: 1.5,
+// });

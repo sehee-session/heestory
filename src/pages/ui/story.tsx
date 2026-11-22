@@ -9,7 +9,6 @@ import { SignOutForm } from '~/features/auth';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { MarkdownToc } from '~/shared/ui';
 import { Header } from '~/widgets/header';
-import { user } from '../lib/mock.user';
 import type { Route } from './+types/story';
 import { WriteStoryNavigationButton } from './write-story-navigation';
 
@@ -62,7 +61,7 @@ const Page = () => {
       />
       <StoryDetail {...story} />
       <MarkdownToc {...story} />
-      <UserInfo {...user} />
+      {story.userProfile && <UserInfo {...story.userProfile} />}
     </>
   );
 };
