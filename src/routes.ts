@@ -23,6 +23,8 @@ export default [
   route('api/auth/callback', 'api/auth/callback.ts'),
   route('api/auth/sign-out', 'api/auth/sign-out.ts'),
 
+  // story
+  route('api/story/list', 'api/story/list.tsx'),
   //
   route('*', 'pages/ui/not-found.tsx'),
 ] satisfies RouteConfig;
