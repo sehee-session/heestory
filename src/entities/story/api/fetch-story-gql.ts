@@ -6,13 +6,15 @@ export const GET_STORY_GQL = gql`
       edges {
         node {
           id
-          user_key
           title
           summary
-          thumbnail_url
           content
-          created_at
-          updated_at
+          thumbnailUrl: thumbnail_url
+
+          userKey: user_key
+
+          createdAt: created_at
+          updatedAt: updated_at
         }
       }
     }
