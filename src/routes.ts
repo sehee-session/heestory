@@ -24,9 +24,9 @@ export default [
   route('api/auth/sign-out', 'api/auth/sign-out.ts'),
 
   // story
-  route('api/story/list', 'api/story/list.tsx'),
-  // route('api/story/:id', 'api/story/update.tsx'),
-  route('api/story', 'api/story/create.tsx'),
+  route('api/stories/list', 'api/stories/list.tsx'),
+  // route('api/stories/:id', 'api/stories/update.tsx'),
+  route('api/stories', 'api/stories/create.tsx'),
   //
   route('*', 'pages/ui/not-found.tsx'),
 ] satisfies RouteConfig;

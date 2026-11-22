@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { storyQueryKeys } from './query-keys';
-import type { Story } from './types';
+import { API_PATHS } from '~/shared/constants';
+import { storyQueryKeys } from '../model/query-keys';
+import type { Story } from '../model/types';
 
 const PAGE_SIZE = 2;
 
@@ -14,7 +15,7 @@ export const useStoryListQuery = () =>
         params.set('after', pageParam);
       }
 
-      const response = await fetch(`/api/story/list?${params}`);
+      const response = await fetch(`${API_PATHS.STORY.LIST}?${params}`);
 
       if (!response.ok) {
         throw new Error('스토리 목록을 불러오지 못했습니다.');

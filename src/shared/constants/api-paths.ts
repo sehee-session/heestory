@@ -7,5 +7,6 @@ export const API_PATHS = {
   STORY: {
     BASE: '/api/stories',
     DETAIL: (id: string) => `${API_PATHS.STORY.BASE}/${id}`,
+    LIST: '/api/stories/list',
   },
 } as const;

@@ -1,8 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
-import React from 'react';
-import { useFetcher, useNavigate } from 'react-router';
-import { StoryDetail, StoryForm } from '~/entities/story';
+import { useNavigate } from 'react-router';
+import { StoryDetail, StoryForm, useWriteStory } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
@@ -24,35 +23,27 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 
 const Page = () => {
   const [preview, onTogglePreview] = useToggle();
+  const mutation = useWriteStory();
   const form = useForm({
     defaultValues: { title: '', content: '' },
     onSubmit: async ({ value }) => {
-      fetcher.submit(
-        { title: value.title.trim(), content: value.content.trim() },
-        { method: 'post', encType: 'application/json' },
-      );
+      try {
+        const story = await mutation.mutateAsync({
+          title: value.title.trim(),
+          content: value.content.trim(),
+        });
+        toast.success('스토리가 저장되었습니다.');
+        navigate(PATHS.STORY.DETAIL(story.storyId));
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : '스토리를 저장하지 못했습니다.',
+        );
+      }
     },
   });
-  const fetcher = useFetcher();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    if (fetcher.state !== 'idle' || !fetcher.data) {
-      return;
-    }
-
-    if (fetcher.data.error) {
-      toast.error(fetcher.data.error);
-      return;
-    }
-
-    if (!fetcher.data.success) {
-      return;
-    }
-
-    toast.success('스토리가 저장되었습니다.');
-    navigate(PATHS.STORY.DETAIL(fetcher.data.storyId));
-  }, [fetcher.state, fetcher.data, navigate]);
 
   return (
     <>
@@ -74,7 +65,7 @@ const Page = () => {
             variant="icon"
             aria-label="저장"
             onClick={() => form.handleSubmit()}
-            disabled={fetcher.state !== 'idle'}
+            disabled={mutation.isPending}
           >
             <SaveIcon />
           </Button>,
