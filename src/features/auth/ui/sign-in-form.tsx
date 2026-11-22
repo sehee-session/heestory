@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSearchParams } from 'react-router';
-import { useSignIn } from '~/entities/auth/api/use-sign-in';
+import { Form, useSearchParams } from 'react-router';
+import { useSignIn } from '~/entities/auth';
 import { Button } from '~/shared/ui';
 
 export const SignInForm = () => {
@@ -18,10 +18,10 @@ export const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Button type="submit" aria-label="GitHub로 계속하기">
         Continue with GitHub <span>→</span>
       </Button>
-    </form>
+    </Form>
   );
 };
