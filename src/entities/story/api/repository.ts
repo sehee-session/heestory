@@ -22,11 +22,7 @@ export const createStoryRepository = ({
   return {
     getStoryById: async (id?: string) => {
       const result = await client.request<{
-        storiesCollection: {
-          edges: {
-            node: Story;
-          }[];
-        } | null;
+        storiesCollection: { edges: { node: Story }[] } | null;
       }>(GET_STORY_GQL, { id });
 
       return result.storiesCollection?.edges[0]?.node ?? null;
@@ -42,10 +38,10 @@ export const createStoryRepository = ({
 
     updateStory: async ({ id, title, content }: UpdateStorySchema) => {
       const result = await client.request<{
-        updateIntostoriesCollection: { records: Story[] };
+        updatestoriesCollection: { records: Story[] };
       }>(UPDATE_STORY_GQL, { id, title, content });
 
-      return result.updateIntostoriesCollection.records[0] ?? null;
+      return result.updatestoriesCollection.records[0] ?? null;
     },
   };
 };
