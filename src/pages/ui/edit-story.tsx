@@ -3,6 +3,7 @@ import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import { data, useLoaderData, useNavigate } from 'react-router';
 import {
   createStoryRepository,
+  STORY_ERROR,
   STORY_TOAST_MESSAGE,
   StoryDetail,
   StoryForm,
@@ -34,7 +35,9 @@ export const loader = async ({
   const { id } = params;
 
   if (!id) {
-    throw data('스토리 ID가 필요합니다.', { status: 400 });
+    throw data(STORY_ERROR.ID_REQUIRED.message, {
+      status: STORY_ERROR.ID_REQUIRED.status,
+    });
   }
 
   const storyRepository = createStoryRepository({
@@ -45,7 +48,9 @@ export const loader = async ({
   const story = await storyRepository.getStoryById(id);
 
   if (!story) {
-    throw data('스토리를 찾을 수 없습니다.', { status: 404 });
+    throw data(STORY_ERROR.NOT_FOUND.message, {
+      status: STORY_ERROR.NOT_FOUND.status,
+    });
   }
 
   if (story.userKey !== user.id) {

@@ -15,4 +15,8 @@ export const STORY_ERROR = {
     status: 500,
     message: '스토리 수정에 실패했습니다.',
   },
+  ID_REQUIRED: {
+    status: 400,
+    message: '스토리 ID가 필요합니다.',
+  },
 } as const;
