@@ -1,46 +1,27 @@
 import React from 'react';
-import { useFetcher, useSearchParams } from 'react-router';
-import { API_PATHS } from '~/shared/constants';
-import { toast } from '~/shared/lib/toast';
+import { useSearchParams } from 'react-router';
+import { useSignIn } from '~/entities/auth/api/use-sign-in';
 import { Button } from '~/shared/ui';
 
-type SignInActionData = {
-  error?: string;
-};
-
 export const SignInForm = () => {
-  const fetcher = useFetcher<SignInActionData>();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const mutation = useSignIn();
+  const [searchParams] = useSearchParams();
 
-  React.useEffect(() => {
-    if (fetcher.data?.error) {
-      toast.error(fetcher.data.error);
-    }
-  }, [fetcher.data]);
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  React.useEffect(() => {
-    const error = searchParams.get('error');
+    const result = await mutation.mutateAsync({
+      returnTo: searchParams.get('returnTo') ?? '',
+    });
 
-    if (!error) return;
-
-    toast.error('로그인에 실패했습니다. 다시 시도해 주세요.');
-
-    const nextSearchParams = new URLSearchParams(searchParams);
-    nextSearchParams.delete('error');
-
-    setSearchParams(nextSearchParams, { replace: true });
-  }, [searchParams, setSearchParams]);
+    window.location.assign(result.returnUrl);
+  };
 
   return (
-    <fetcher.Form method="post" action={API_PATHS.AUTH.SIGN_IN}>
-      <input
-        type="hidden"
-        name="returnTo"
-        value={searchParams.get('returnTo') ?? ''}
-      />
+    <form onSubmit={onSubmit}>
       <Button type="submit" aria-label="GitHub로 계속하기">
         Continue with GitHub <span>→</span>
       </Button>
-    </fetcher.Form>
+    </form>
   );
 };

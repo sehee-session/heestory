@@ -1,12 +1,12 @@
-import { redirect } from 'react-router';
+import { data, redirect } from 'react-router';
+import { AUTH_ERROR } from '~/entities/auth';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/callback';
 
 const getSafeReturnTo = (value: string | null) => {
-  if (!value) return null;
-
   if (
+    !value ||
     !value.startsWith('/') ||
     value.startsWith('//') ||
     value.includes('\\') ||
@@ -20,22 +20,6 @@ const getSafeReturnTo = (value: string | null) => {
   return value;
 };
 
-const redirectToSignIn = (
-  request: Request,
-  error: string,
-  returnTo: string | null,
-) => {
-  const url = new URL(PATHS.AUTH.SIGN_IN, request.url);
-
-  url.searchParams.set('error', error);
-
-  if (returnTo) {
-    url.searchParams.set('returnTo', returnTo);
-  }
-
-  return redirect(url.toString());
-};
-
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const supabase = context.get(supabaseContext);
 
@@ -43,18 +27,20 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const code = url.searchParams.get('code');
   const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
-  if (!supabase) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
-  }
-
-  if (!code) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  if (!supabase || !code) {
+    return data(
+      { error: AUTH_ERROR.OAUTH_FAILED.message },
+      { status: AUTH_ERROR.OAUTH_FAILED.status },
+    );
   }
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+    return data(
+      { error: AUTH_ERROR.OAUTH_FAILED.message },
+      { status: AUTH_ERROR.OAUTH_FAILED.status },
+    );
   }
 
   return redirect(returnTo ?? PATHS.HOME);
