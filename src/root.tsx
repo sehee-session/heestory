@@ -1,5 +1,3 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 import {
   isRouteErrorResponse,
@@ -14,6 +12,7 @@ import { supabaseMiddleware } from '~/middleware/supabase';
 import { authUserContext } from '~/shared/auth';
 import type { Route } from './+types/root';
 import { getColorMode } from './shared/actions';
+import { ReactQueryProvider } from './shared/provider';
 import './shared/styles';
 import { ToastProvider } from './shared/ui';
 
@@ -61,20 +60,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      mutations: {
-        onSettled: () => {},
-        onError: () => {},
-      },
-    },
-  });
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <ReactQueryProvider>
       <Outlet />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    </ReactQueryProvider>
   );
 }
 
