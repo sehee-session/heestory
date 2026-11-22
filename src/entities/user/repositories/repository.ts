@@ -1,28 +1,19 @@
-import { createGraphqlClient } from '~/shared/api';
+import type { RepositoryConfig } from '~/shared/api';
+import { createRepository } from '~/shared/api';
 import type {
   SyncUserProfileParams,
   SyncUserProfileResponse,
 } from '../model/types';
 import { SYNC_USER_PROFILE_GQL } from './sync-profile-gql';
 
-type UserRepositoryConfig = {
-  url: string;
-  apiKey: string;
-  accessToken?: string;
-};
-
-export const createUserRepository = ({
-  apiKey,
-  url,
-  accessToken,
-}: UserRepositoryConfig) => {
-  const client = createGraphqlClient({ url, apiKey, accessToken });
+export const createUserRepository = (config: RepositoryConfig) => {
+  const { request } = createRepository(config);
 
   return {
-    syncUserProfile: async ({ username, avatarUrl }: SyncUserProfileParams) => {
-      const result = await client.request<SyncUserProfileResponse>(
+    syncUserProfile: async (params: SyncUserProfileParams) => {
+      const result = await request<SyncUserProfileResponse>(
         SYNC_USER_PROFILE_GQL,
-        { username, avatarUrl },
+        params,
       );
 
       return result.sync_user_profile;

@@ -1,4 +1,4 @@
-import { createGraphqlClient } from '~/shared/api';
+import { createRepository, type RepositoryConfig } from '~/shared/api';
 import type { CreateStorySchema } from '../model/create-story-schema';
 import type { Story } from '../model/types';
 import type { UpdateStorySchema } from '../model/update-story-schema';
@@ -7,22 +7,12 @@ import { GET_STORY_GQL } from './fetch-story-gql';
 import { GET_STORY_LIST_GQL } from './fetch-story-list-gql';
 import { UPDATE_STORY_GQL } from './update-story-gql';
 
-type StoryRepositoryConfig = {
-  url: string;
-  apiKey: string;
-  accessToken?: string;
-};
-
-export const createStoryRepository = ({
-  url,
-  apiKey,
-  accessToken,
-}: StoryRepositoryConfig) => {
-  const client = createGraphqlClient({ url, apiKey, accessToken });
+export const createStoryRepository = (config: RepositoryConfig) => {
+  const { request } = createRepository(config);
 
   return {
     getStoryById: async (id?: string) => {
-      const result = await client.request<{
+      const result = await request<{
         storiesCollection: { edges: { node: Story }[] } | null;
       }>(GET_STORY_GQL, { id });
 
@@ -36,7 +26,7 @@ export const createStoryRepository = ({
       first?: number;
       after?: string | null;
     }) => {
-      const result = await client.request<{
+      const result = await request<{
         storiesCollection: {
           edges: { node: Story }[];
           pageInfo: { endCursor: string | null; hasNextPage: boolean };
@@ -51,7 +41,7 @@ export const createStoryRepository = ({
     },
 
     createStory: async ({ title, content }: CreateStorySchema) => {
-      const result = await client.request<{
+      const result = await request<{
         insertIntostoriesCollection: { records: Story[] };
       }>(CREATE_STORY_GQL, { title, content });
 
@@ -59,7 +49,7 @@ export const createStoryRepository = ({
     },
 
     updateStory: async ({ id, title, content, userKey }: UpdateStorySchema) => {
-      const result = await client.request<{
+      const result = await request<{
         updatestoriesCollection: { records: Story[] };
       }>(UPDATE_STORY_GQL, { id, title, content, userKey });
 
