@@ -13,6 +13,8 @@ export const stories: StoryWithAuthor[] = [
     summary:
       'A deep dive into React Server Components and how they change the way we build applications.',
     createdAt: '2026-11-02T10:00:00.000Z',
+    updatedAt: '2026-11-02T10:00:00.000Z',
+    user_key: 'b3867779-5200-4963-bec1-bc77ab6b2da7',
     author: {
       id: '1',
       name: 'John Developer',
@@ -27,6 +29,8 @@ export const stories: StoryWithAuthor[] = [
     summary:
       'Learn how to leverage advanced TypeScript utility types to write more robust and maintainable code.',
     createdAt: '2026-11-01T14:30:00.000Z',
+    updatedAt: '2026-11-01T14:30:00.000Z',
+    user_key: 'b3867779-5200-4963-bec1-bc77ab6b2da7',
     author: {
       id: '2',
       name: 'Jane Smith',
@@ -41,6 +45,8 @@ export const stories: StoryWithAuthor[] = [
     summary:
       'Explore the latest performance improvements and configuration changes in Tailwind CSS v4.',
     createdAt: '2026-10-28T09:15:00.000Z',
+    updatedAt: '2026-10-28T09:15:00.000Z',
+    user_key: 'b3867779-5200-4963-bec1-bc77ab6b2da7',
     author: {
       id: '3',
       name: 'Alex Johnson',
@@ -55,6 +61,8 @@ export const stories: StoryWithAuthor[] = [
     summary:
       'A practical guide to creating reusable and clean custom React hooks for complex form states.',
     createdAt: '2026-10-25T16:45:00.000Z',
+    updatedAt: '2026-10-25T16:45:00.000Z',
+    user_key: 'b3867779-5200-4963-bec1-bc77ab6b2da7',
     author: {
       id: '4',
       name: 'Emily Davis',
@@ -69,6 +77,8 @@ export const stories: StoryWithAuthor[] = [
     summary:
       'Comparing modern state management solutions to find the best fit for your next large-scale project.',
     createdAt: '2026-10-20T11:20:00.000Z',
+    updatedAt: '2026-10-20T11:20:00.000Z',
+    user_key: 'b3867779-5200-4963-bec1-bc77ab6b2da7',
     author: {
       id: '5',
       name: 'Michael Brown',

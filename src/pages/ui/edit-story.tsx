@@ -3,13 +3,11 @@ import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import React from 'react';
 import { data, useFetcher, useLoaderData, useNavigate } from 'react-router';
 import {
-  GET_STORY,
-  MODIFY_STORY,
+  createStoryRepository,
   StoryDetail,
   StoryForm,
-  type GetStoryQuery,
+  updateStorySchema,
 } from '~/entities/story';
-import { createGraphqlClient } from '~/shared/api/graphql';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants/paths';
 import { useToggle } from '~/shared/hooks';
@@ -40,14 +38,12 @@ export const loader = async ({
     throw data('스토리 ID가 필요합니다.', { status: 400 });
   }
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
   });
 
-  const result = await client.request<GetStoryQuery>(GET_STORY, { id });
-
-  const story = result.storiesCollection?.edges[0]?.node;
+  const story = await storyRepository.getStoryById(id);
 
   if (!story) {
     throw data('스토리를 찾을 수 없습니다.', { status: 404 });
@@ -78,40 +74,42 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
+  if (user.id !== session.user.id) {
+    return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
+  }
+
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
+  }
+
+  const parsed = updateStorySchema.safeParse(body);
+
+  if (!parsed.success) {
+    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
+  }
+
   const { env } = context.get(cloudflareContext);
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
     accessToken: session.access_token,
   });
 
-  const { id, title, content } = (await request.json()) as {
-    id: string;
-    title: string;
-    content: string;
-  };
+  const result = await storyRepository.updateStory(parsed.data);
 
-  if (user.id !== session.user.id) {
-    return data({ error: '수정 권한이 없습니다.' }, { status: 403 });
-  }
-
-  if (title.length === 0) {
-    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
-  }
-
-  const result = await client.request(MODIFY_STORY, { id, title, content });
-
-  const storyId = result.updatestoriesCollection?.records[0]?.id;
-
-  if (!storyId) {
+  if (!result?.id) {
     return data(
       { error: '스토리 저장 결과를 확인할 수 없습니다.' },
       { status: 500 },
     );
   }
 
-  return data({ success: true, storyId });
+  return data({ success: true, storyId: result.id });
 };
 
 const Page = () => {

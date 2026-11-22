@@ -1,8 +1,7 @@
-import { data, redirect, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { SignInForm } from '~/features/auth';
 import { requireGuest } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
-import { supabaseContext } from '~/shared/supabase';
 import { Button, Terminal } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/sign-in';
@@ -10,39 +9,6 @@ import * as styles from './sign-in.css';
 
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
   requireGuest(request, context);
-};
-
-export const action = async ({ request, context }: Route.ActionArgs) => {
-  const supabase = context.get(supabaseContext);
-
-  if (!supabase) {
-    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
-  }
-
-  const formData = await request.formData();
-  const returnTo = formData.get('returnTo');
-  const callbackUrl = new URL(PATHS.API.AUTH.SIGN_IN, request.url);
-
-  if (typeof returnTo === 'string') {
-    callbackUrl.searchParams.set('returnTo', returnTo);
-  }
-
-  const redirectTo = callbackUrl.toString();
-
-  const { data: oauthData, error } = await supabase.auth.signInWithOAuth({
-    provider: 'github',
-    options: { redirectTo },
-  });
-
-  if (error) {
-    return data({ error: error.message }, { status: 500 });
-  }
-
-  if (!oauthData.url) {
-    return data({ error: 'OAuth URL not found' }, { status: 500 });
-  }
-
-  return redirect(oauthData.url);
 };
 
 const Page = () => {

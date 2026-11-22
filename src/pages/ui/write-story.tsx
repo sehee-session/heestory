@@ -2,8 +2,12 @@ import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import React from 'react';
 import { data, useFetcher, useNavigate } from 'react-router';
-import { CREATE_STORY, StoryDetail, StoryForm } from '~/entities/story';
-import { createGraphqlClient } from '~/shared/api';
+import {
+  createStoryRepository,
+  createStorySchema,
+  StoryDetail,
+  StoryForm,
+} from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
@@ -43,38 +47,38 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
   }
 
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
+  }
+
+  const parsed = createStorySchema.safeParse(body);
+
+  if (!parsed.success) {
+    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
+  }
+
   const { env } = context.get(cloudflareContext);
 
-  const client = createGraphqlClient({
+  const storyRepository = createStoryRepository({
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
     accessToken: session.access_token,
   });
 
-  const { title, content } = (await request.json()) as {
-    title: string;
-    content: string;
-  };
+  const result = await storyRepository.createStory(parsed.data);
 
-  if (title.length === 0) {
-    return data({ error: '제목을 입력해주세요.' }, { status: 400 });
-  }
-
-  const result = await client.request(CREATE_STORY, { title, content });
-
-  const storyId = result.insertIntostoriesCollection.records[0]?.id;
-
-  if (!storyId) {
+  if (!result?.id) {
     return data(
       { error: '스토리 저장 결과를 확인할 수 없습니다.' },
       { status: 500 },
     );
   }
 
-  return data({
-    success: true,
-    storyId,
-  });
+  return data({ success: true, storyId: result.id });
 };
 
 const Page = () => {

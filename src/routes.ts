@@ -20,6 +20,7 @@ export default [
   // backend
   // auth
   route('api/auth/sign-in', 'api/auth/sign-in.ts'),
+  route('api/auth/callback', 'api/auth/callback.ts'),
   route('api/auth/sign-out', 'api/auth/sign-out.ts'),
 
   //

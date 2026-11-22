@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
-export const MODIFY_STORY = gql`
-  mutation ModifyStory($id: UUID!, $title: String!, $content: String!) {
+export const UPDATE_STORY_GQL = gql`
+  mutation UpdateStory($id: UUID!, $title: String!, $content: String!) {
     updatestoriesCollection(
       filter: { id: { eq: $id } }
       set: { title: $title, content: $content }

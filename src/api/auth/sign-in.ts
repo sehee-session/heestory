@@ -1,61 +1,37 @@
-import { redirect } from 'react-router';
+import { data, redirect } from 'react-router';
 import { PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/sign-in';
 
-const getSafeReturnTo = (value: string | null) => {
-  if (!value) return null;
-
-  if (
-    !value.startsWith('/') ||
-    value.startsWith('//') ||
-    value.includes('\\') ||
-    [...value].some(
-      (char) => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127,
-    )
-  ) {
-    return null;
-  }
-
-  return value;
-};
-
-const redirectToSignIn = (
-  request: Request,
-  error: string,
-  returnTo: string | null,
-) => {
-  const url = new URL(PATHS.AUTH.SIGN_IN, request.url);
-
-  url.searchParams.set('error', error);
-
-  if (returnTo) {
-    url.searchParams.set('returnTo', returnTo);
-  }
-
-  return redirect(url.toString());
-};
-
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
 
-  const url = new URL(request.url);
-  const code = url.searchParams.get('code');
-  const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
-
   if (!supabase) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
   }
 
-  if (!code) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  const formData = await request.formData();
+  const returnTo = formData.get('returnTo');
+  const callbackUrl = new URL(PATHS.API.AUTH.CALLBACK, request.url);
+
+  if (typeof returnTo === 'string') {
+    callbackUrl.searchParams.set('returnTo', returnTo);
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const redirectTo = callbackUrl.toString();
+
+  const { data: oauthData, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo },
+  });
 
   if (error) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+    return data({ error: error.message }, { status: 500 });
   }
 
-  return redirect(returnTo ?? PATHS.HOME);
+  if (!oauthData.url) {
+    return data({ error: 'OAuth URL not found' }, { status: 500 });
+  }
+
+  return redirect(oauthData.url);
 };
