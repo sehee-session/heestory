@@ -4,7 +4,7 @@ export type Story = {
   title: string;
   summary: string;
   content: string;
-  user_key: string;
+  userKey: string;
 
   createdAt: string;
   updatedAt: string;

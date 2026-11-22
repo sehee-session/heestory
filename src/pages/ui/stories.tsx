@@ -1,10 +1,8 @@
 import { Tabs } from '@base-ui/react/tabs';
 import { RssIcon } from 'lucide-react';
-import { StoryCard } from '~/entities/story';
-import { UserAuthor } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
 import { Header } from '~/widgets/header';
-import { stories } from '../lib/mock.stories';
+import { InfiniteStoryList } from '~/widgets/story-list';
 import * as styles from './stories.css';
 import { WriteStoryNavigationButton } from './write-story-navigation';
 
@@ -16,9 +14,7 @@ export const meta = () => [
   },
 ];
 
-const TAB = {
-  LATEST: 'latest',
-} as const;
+const TAB = { LATEST: 'latest' } as const;
 
 const tabs = [{ label: 'Latest', value: TAB.LATEST, Icon: RssIcon }];
 
@@ -42,12 +38,7 @@ const Page = () => {
           <Tabs.Indicator className={styles.indicator} />
         </Tabs.List>
         <Tabs.Panel className={styles.panel} value={TAB.LATEST}>
-          {stories.map((story) => (
-            <article key={story.id} className={styles.panelItem}>
-              <UserAuthor {...story.author} />
-              <StoryCard {...story} />
-            </article>
-          ))}
+          <InfiniteStoryList />
         </Tabs.Panel>
       </Tabs.Root>
     </main>

@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '~/shared/styles';
 
 export const root = style({
@@ -57,12 +57,8 @@ export const panel = style({
   flexDirection: 'column',
 });
 
-export const panelItem = style({
-  selectors: {
-    [`${panel} & + &`]: {
-      borderTop: `1px solid ${vars.color.border}`,
-      paddingTop: vars.spacing['2xl'],
-      marginTop: vars.spacing['2xl'],
-    },
-  },
+globalStyle(`${panel} > article ~ article`, {
+  borderTop: `1px solid ${vars.color.border}`,
+  paddingTop: vars.spacing['2xl'],
+  marginTop: vars.spacing['2xl'],
 });
