@@ -7,4 +7,8 @@ export const AUTH_ERROR = {
     message: '로그아웃에 실패했습니다.',
     status: 500,
   },
+  INVALID_INPUT: {
+    message: '잘못된 요청입니다.',
+    status: 400,
+  },
 };

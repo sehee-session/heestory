@@ -29,8 +29,8 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   if (!parsedBody.success) {
     return data(
-      { error: AUTH_ERROR.OAUTH_FAILED.message },
-      { status: AUTH_ERROR.OAUTH_FAILED.status },
+      { error: AUTH_ERROR.INVALID_INPUT.message },
+      { status: AUTH_ERROR.INVALID_INPUT.status },
     );
   }
 
