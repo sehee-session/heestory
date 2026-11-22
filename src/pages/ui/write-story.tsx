@@ -1,19 +1,16 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
-import React from 'react';
-import { data, useFetcher, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import {
-  createStoryRepository,
-  createStorySchema,
+  STORY_TOAST_MESSAGE,
   StoryDetail,
   StoryForm,
+  useWriteStory,
 } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
-import { cloudflareContext } from '~/shared/lib';
 import { toast } from '~/shared/lib/toast';
-import { supabaseContext } from '~/shared/supabase';
 import { Button } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/write-story';
@@ -29,89 +26,21 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   return { user };
 };
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
-  requireAuth(request, context);
-
-  const supabase = context.get(supabaseContext);
-
-  if (!supabase) {
-    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
-  }
-
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
-
-  if (error || !session) {
-    return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
-  }
-
-  let body: unknown;
-
-  try {
-    body = await request.json();
-  } catch {
-    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
-  }
-
-  const parsed = createStorySchema.safeParse(body);
-
-  if (!parsed.success) {
-    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
-  }
-
-  const { env } = context.get(cloudflareContext);
-
-  const storyRepository = createStoryRepository({
-    url: env.SUPABASE_URL,
-    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
-    accessToken: session.access_token,
-  });
-
-  const result = await storyRepository.createStory(parsed.data);
-
-  if (!result?.id) {
-    return data(
-      { error: '스토리 저장 결과를 확인할 수 없습니다.' },
-      { status: 500 },
-    );
-  }
-
-  return data({ success: true, storyId: result.id });
-};
-
 const Page = () => {
   const [preview, onTogglePreview] = useToggle();
+  const mutation = useWriteStory();
   const form = useForm({
     defaultValues: { title: '', content: '' },
     onSubmit: async ({ value }) => {
-      fetcher.submit(
-        { title: value.title.trim(), content: value.content.trim() },
-        { method: 'post', encType: 'application/json' },
-      );
+      const story = await mutation.mutateAsync({
+        title: value.title.trim(),
+        content: value.content.trim(),
+      });
+      toast.success(STORY_TOAST_MESSAGE.WRITE_SUCCESS);
+      navigate(PATHS.STORY.DETAIL(story.storyId));
     },
   });
-  const fetcher = useFetcher();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    if (fetcher.state !== 'idle' || !fetcher.data) {
-      return;
-    }
-
-    if (fetcher.data.error) {
-      toast.error(fetcher.data.error);
-      return;
-    }
-
-    if (!fetcher.data.success) {
-      return;
-    }
-
-    toast.success('스토리가 저장되었습니다.');
-    navigate(PATHS.STORY.DETAIL(fetcher.data.storyId));
-  }, [fetcher.state, fetcher.data, navigate]);
 
   return (
     <>
@@ -133,7 +62,7 @@ const Page = () => {
             variant="icon"
             aria-label="저장"
             onClick={() => form.handleSubmit()}
-            disabled={fetcher.state !== 'idle'}
+            disabled={mutation.isPending}
           >
             <SaveIcon />
           </Button>,

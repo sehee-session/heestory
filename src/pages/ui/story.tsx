@@ -1,5 +1,9 @@
 import { data, useLoaderData } from 'react-router';
-import { createStoryRepository, StoryDetail } from '~/entities/story';
+import {
+  createStoryRepository,
+  STORY_ERROR,
+  StoryDetail,
+} from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
@@ -28,13 +32,17 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
   const { id } = params;
 
   if (!id) {
-    throw data('스토리 ID가 필요합니다.', { status: 400 });
+    throw data(STORY_ERROR.ID_REQUIRED.message, {
+      status: STORY_ERROR.ID_REQUIRED.status,
+    });
   }
 
   const story = await storyRepository.getStoryById(id);
 
   if (!story) {
-    throw data('스토리를 찾을 수 없습니다.', { status: 404 });
+    throw data(STORY_ERROR.NOT_FOUND.message, {
+      status: STORY_ERROR.NOT_FOUND.status,
+    });
   }
 
   return { story };

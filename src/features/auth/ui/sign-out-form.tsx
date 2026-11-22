@@ -1,7 +1,7 @@
 import { LogOutIcon } from 'lucide-react';
 import React from 'react';
 import { useFetcher } from 'react-router';
-import { PATHS } from '~/shared/constants';
+import { API_PATHS } from '~/shared/constants';
 import { useAuth } from '~/shared/hooks';
 import { toast } from '~/shared/lib/toast';
 import { Button } from '~/shared/ui';
@@ -19,7 +19,7 @@ export const SignOutForm = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <fetcher.Form method="post" action={PATHS.API.AUTH.SIGN_OUT}>
+    <fetcher.Form method="post" action={API_PATHS.AUTH.SIGN_OUT}>
       <Button
         variant="icon"
         type="submit"

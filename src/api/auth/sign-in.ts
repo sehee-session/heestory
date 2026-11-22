@@ -1,5 +1,5 @@
 import { data, redirect } from 'react-router';
-import { PATHS } from '~/shared/constants';
+import { API_PATHS } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/sign-in';
 
@@ -12,7 +12,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const formData = await request.formData();
   const returnTo = formData.get('returnTo');
-  const callbackUrl = new URL(PATHS.API.AUTH.CALLBACK, request.url);
+  const callbackUrl = new URL(API_PATHS.AUTH.CALLBACK, request.url);
 
   if (typeof returnTo === 'string') {
     callbackUrl.searchParams.set('returnTo', returnTo);
