@@ -10,7 +10,11 @@ import { cloudflareContext } from '~/shared/lib';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/id';
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({
+  request,
+  context,
+  params,
+}: Route.ActionArgs) => {
   if (request.method !== 'PATCH') {
     return data(
       { error: COMMON_ERROR.METHOD_NOT_ALLOWED.message },
@@ -18,6 +22,14 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
         status: COMMON_ERROR.METHOD_NOT_ALLOWED.status,
         headers: { Allow: 'PATCH' },
       },
+    );
+  }
+
+  const { id } = params;
+  if (!id) {
+    return data(
+      { error: STORY_ERROR.ID_REQUIRED.message },
+      { status: STORY_ERROR.ID_REQUIRED.status },
     );
   }
 
