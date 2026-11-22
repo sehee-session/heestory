@@ -58,10 +58,10 @@ export const createStoryRepository = ({
       return result.insertIntostoriesCollection.records[0] ?? null;
     },
 
-    updateStory: async ({ id, title, content }: UpdateStorySchema) => {
+    updateStory: async ({ id, title, content, userKey }: UpdateStorySchema) => {
       const result = await client.request<{
         updatestoriesCollection: { records: Story[] };
-      }>(UPDATE_STORY_GQL, { id, title, content });
+      }>(UPDATE_STORY_GQL, { id, title, content, userKey });
 
       return result.updatestoriesCollection.records[0] ?? null;
     },

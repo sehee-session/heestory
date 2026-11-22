@@ -64,7 +64,7 @@ export const loader = async ({
 };
 
 const Page = () => {
-  const { story } = useLoaderData<typeof loader>();
+  const { story, user } = useLoaderData<typeof loader>();
   const [preview, onTogglePreview] = useToggle();
   const mutation = useEditStory();
 
@@ -76,6 +76,7 @@ const Page = () => {
         id: story.id,
         title: value.title.trim(),
         content: value.content.trim(),
+        userKey: user.id,
       });
       toast.success(STORY_TOAST_MESSAGE.EDIT_SUCCESS);
       navigate(PATHS.STORY.DETAIL(result.storyId));
