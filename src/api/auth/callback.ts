@@ -1,6 +1,7 @@
-import { data, redirect } from 'react-router';
-import { AUTH_ERROR } from '~/entities/auth';
+import { redirect } from 'react-router';
+import { createUserRepository } from '~/entities/user';
 import { PATHS } from '~/shared/constants';
+import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/callback';
 
@@ -28,20 +29,28 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
   if (!supabase || !code) {
-    return data(
-      { error: AUTH_ERROR.OAUTH_FAILED.message },
-      { status: AUTH_ERROR.OAUTH_FAILED.status },
-    );
+    return redirect(PATHS.AUTH.SIGN_IN);
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { data: authData, error } =
+    await supabase.auth.exchangeCodeForSession(code);
 
-  if (error) {
-    return data(
-      { error: AUTH_ERROR.OAUTH_FAILED.message },
-      { status: AUTH_ERROR.OAUTH_FAILED.status },
-    );
+  if (error || !authData.user || !authData.session) {
+    return redirect(PATHS.AUTH.SIGN_IN);
   }
+
+  const { env } = context.get(cloudflareContext);
+
+  const userRepository = createUserRepository({
+    url: env.SUPABASE_URL,
+    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
+    accessToken: authData.session.access_token,
+  });
+
+  await userRepository.syncUserProfile({
+    username: authData.user.user_metadata.user_name ?? null,
+    avatarUrl: authData.user.user_metadata.avatar_url ?? null,
+  });
 
   return redirect(returnTo ?? PATHS.HOME);
 };
