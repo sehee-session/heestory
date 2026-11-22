@@ -16,6 +16,13 @@ export const GET_STORY_LIST_GQL = gql`
           content
           thumbnailUrl: thumbnail_url
           userKey: user_key
+
+          userProfile: user_profiles {
+            id
+            username
+            avatarUrl: avatar_url
+          }
+
           createdAt: created_at
           updatedAt: updated_at
         }

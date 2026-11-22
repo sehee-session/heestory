@@ -1,5 +1,6 @@
-import { data, redirect } from 'react-router';
-import { API_PATHS } from '~/shared/constants';
+import { data } from 'react-router';
+import { AUTH_ERROR, signInSchema } from '~/entities/auth';
+import { API_PATHS, COMMON_ERROR } from '~/shared/constants';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/sign-in';
 
@@ -7,31 +8,50 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
 
   if (!supabase) {
-    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
+    return data(
+      { error: COMMON_ERROR.CONTEXT_NOT_FOUND.message },
+      { status: COMMON_ERROR.CONTEXT_NOT_FOUND.status },
+    );
   }
 
-  const formData = await request.formData();
-  const returnTo = formData.get('returnTo');
-  const callbackUrl = new URL(API_PATHS.AUTH.CALLBACK, request.url);
+  let body: unknown;
 
-  if (typeof returnTo === 'string') {
+  try {
+    body = await request.json();
+  } catch {
+    return data(
+      { error: AUTH_ERROR.OAUTH_FAILED.message },
+      { status: AUTH_ERROR.OAUTH_FAILED.status },
+    );
+  }
+
+  const parsedBody = signInSchema.safeParse(body);
+
+  if (!parsedBody.success) {
+    return data(
+      { error: AUTH_ERROR.INVALID_INPUT.message },
+      { status: AUTH_ERROR.INVALID_INPUT.status },
+    );
+  }
+
+  const callbackUrl = new URL(API_PATHS.AUTH.CALLBACK, request.url);
+  const { returnTo } = parsedBody.data;
+
+  if (returnTo.startsWith('/') && !returnTo.startsWith('//')) {
     callbackUrl.searchParams.set('returnTo', returnTo);
   }
 
-  const redirectTo = callbackUrl.toString();
-
   const { data: oauthData, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
-    options: { redirectTo },
+    options: { redirectTo: callbackUrl.toString() },
   });
 
-  if (error) {
-    return data({ error: error.message }, { status: 500 });
+  if (error || !oauthData.url) {
+    return data(
+      { error: AUTH_ERROR.OAUTH_FAILED.message },
+      { status: AUTH_ERROR.OAUTH_FAILED.status },
+    );
   }
 
-  if (!oauthData.url) {
-    return data({ error: 'OAuth URL not found' }, { status: 500 });
-  }
-
-  return redirect(oauthData.url);
+  return data({ returnUrl: oauthData.url });
 };

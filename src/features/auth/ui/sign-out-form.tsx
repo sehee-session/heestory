@@ -1,33 +1,34 @@
 import { LogOutIcon } from 'lucide-react';
-import React from 'react';
-import { useFetcher } from 'react-router';
-import { API_PATHS } from '~/shared/constants';
+import { Form, useNavigate } from 'react-router';
+import { useSignOut } from '~/entities/auth';
 import { useAuth } from '~/shared/hooks';
-import { toast } from '~/shared/lib/toast';
 import { Button } from '~/shared/ui';
 
 export const SignOutForm = () => {
   const { isAuthenticated } = useAuth();
-  const fetcher = useFetcher<{ error?: string }>();
+  const mutation = useSignOut();
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
-    if (fetcher.data?.error) {
-      toast.error(fetcher.data.error);
-    }
-  }, [fetcher.data]);
+  const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const result = await mutation.mutateAsync();
+
+    navigate(result.returnUrl);
+  };
 
   if (!isAuthenticated) return null;
 
   return (
-    <fetcher.Form method="post" action={API_PATHS.AUTH.SIGN_OUT}>
+    <Form onSubmit={onSubmit}>
       <Button
         variant="icon"
         type="submit"
         aria-label="로그아웃"
-        disabled={fetcher.state !== 'idle'}
+        disabled={mutation.isPending}
       >
         <LogOutIcon />
       </Button>
-    </fetcher.Form>
+    </Form>
   );
 };

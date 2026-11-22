@@ -13,6 +13,12 @@ export const GET_STORY_GQL = gql`
           userKey: user_key
           thumbnailUrl: thumbnail_url
 
+          userProfile: user_profiles {
+            id
+            username
+            avatarUrl: avatar_url
+          }
+
           createdAt: created_at
           updatedAt: updated_at
         }

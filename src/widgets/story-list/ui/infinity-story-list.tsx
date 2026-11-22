@@ -1,4 +1,5 @@
 import { StoryCard, useStoryListQuery } from '~/entities/story';
+import { UserAuthor } from '~/entities/user';
 import { InfiniteScrollTrigger } from '~/shared/ui';
 
 export const InfiniteStoryList = () => {
@@ -27,6 +28,7 @@ export const InfiniteStoryList = () => {
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
+          {story.userProfile && <UserAuthor {...story.userProfile} />}
         </article>
       ))}
       {hasNextPage && (

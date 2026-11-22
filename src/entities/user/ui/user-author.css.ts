@@ -30,7 +30,7 @@ export const avatarFallback = style({
   fontWeight: vars.fontWeight.semibold,
 });
 
-export const name = style({
+export const username = style({
   fontSize: vars.fontSize.sm,
   fontWeight: vars.fontWeight.medium,
 });

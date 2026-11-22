@@ -6,7 +6,7 @@ type CreateGraphqlClientParams = {
   accessToken?: string;
 };
 
-export const createGraphqlClient = ({
+const createGraphqlClient = ({
   url,
   apiKey,
   accessToken,
@@ -17,3 +17,19 @@ export const createGraphqlClient = ({
       ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
     },
   });
+
+export type RepositoryConfig = {
+  url: string;
+  apiKey: string;
+  accessToken?: string;
+};
+
+type RepositoryFactory<T> = (request: GraphQLClient['request']) => T;
+
+export const createRepository =
+  <T>(factory: RepositoryFactory<T>) =>
+  (config: RepositoryConfig) => {
+    const client = createGraphqlClient(config);
+
+    return factory(client.request.bind(client));
+  };

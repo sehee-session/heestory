@@ -1,12 +1,13 @@
 import { redirect } from 'react-router';
+import { createUserRepository } from '~/entities/user';
 import { PATHS } from '~/shared/constants';
+import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/callback';
 
 const getSafeReturnTo = (value: string | null) => {
-  if (!value) return null;
-
   if (
+    !value ||
     !value.startsWith('/') ||
     value.startsWith('//') ||
     value.includes('\\') ||
@@ -20,20 +21,14 @@ const getSafeReturnTo = (value: string | null) => {
   return value;
 };
 
-const redirectToSignIn = (
-  request: Request,
-  error: string,
-  returnTo: string | null,
-) => {
-  const url = new URL(PATHS.AUTH.SIGN_IN, request.url);
-
-  url.searchParams.set('error', error);
-
-  if (returnTo) {
-    url.searchParams.set('returnTo', returnTo);
+const getSignInUrl = (returnTo: string | null) => {
+  if (!returnTo) {
+    return PATHS.AUTH.SIGN_IN;
   }
 
-  return redirect(url.toString());
+  const params = new URLSearchParams({ returnTo });
+
+  return `${PATHS.AUTH.SIGN_IN}?${params.toString()}`;
 };
 
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
@@ -43,18 +38,32 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const code = url.searchParams.get('code');
   const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
-  if (!supabase) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  if (!supabase || !code) {
+    return redirect(getSignInUrl(returnTo));
   }
 
-  if (!code) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  const { data: authData, error } =
+    await supabase.auth.exchangeCodeForSession(code);
+
+  if (error || !authData.user || !authData.session) {
+    return redirect(getSignInUrl(returnTo));
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { env } = context.get(cloudflareContext);
 
-  if (error) {
-    return redirectToSignIn(request, 'oauth_failed', returnTo);
+  const userRepository = createUserRepository({
+    url: env.SUPABASE_URL,
+    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
+    accessToken: authData.session.access_token,
+  });
+
+  try {
+    await userRepository.syncUserProfile({
+      username: authData.user.user_metadata.user_name ?? null,
+      avatarUrl: authData.user.user_metadata.avatar_url ?? null,
+    });
+  } catch (error) {
+    console.error('Failed to sync user profile:', error);
   }
 
   return redirect(returnTo ?? PATHS.HOME);
