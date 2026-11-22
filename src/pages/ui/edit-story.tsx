@@ -10,6 +10,7 @@ import {
   useEditStory,
 } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
+import { COMMON_ERROR } from '~/shared/constants';
 import { PATHS } from '~/shared/constants/paths';
 import { useToggle } from '~/shared/hooks';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
@@ -54,7 +55,9 @@ export const loader = async ({
   }
 
   if (story.userKey !== user.id) {
-    throw data('수정 권한이 없습니다.', { status: 403 });
+    throw data(COMMON_ERROR.FORBIDDEN.message, {
+      status: COMMON_ERROR.FORBIDDEN.status,
+    });
   }
 
   return { story, user };
