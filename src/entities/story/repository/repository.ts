@@ -4,7 +4,7 @@ import type { Story } from '../model/types';
 import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY_GQL } from './create-story-gql';
 import { GET_STORY_GQL } from './fetch-story-gql';
-import { GET_STORY_LIST_GQL } from './fetch-story-list';
+import { GET_STORY_LIST_GQL } from './fetch-story-list-gql';
 import { UPDATE_STORY_GQL } from './update-story-gql';
 
 type StoryRepositoryConfig = {

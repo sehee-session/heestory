@@ -25,6 +25,8 @@ export default [
 
   // story
   route('api/story/list', 'api/story/list.tsx'),
+  // route('api/story/:id', 'api/story/update.tsx'),
+  route('api/story', 'api/story/create.tsx'),
   //
   route('*', 'pages/ui/not-found.tsx'),
 ] satisfies RouteConfig;

@@ -8,9 +8,7 @@ export const useStoryListQuery = () =>
   useInfiniteQuery({
     queryKey: storyQueryKeys.lists(),
     queryFn: async ({ pageParam }) => {
-      const params = new URLSearchParams({
-        first: String(PAGE_SIZE),
-      });
+      const params = new URLSearchParams({ first: String(PAGE_SIZE) });
 
       if (pageParam) {
         params.set('after', pageParam);

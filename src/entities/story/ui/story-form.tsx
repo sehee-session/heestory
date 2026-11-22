@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, MarkdownHelper, TextArea } from '~/shared/ui';
-import type { StoryFormApi } from '../lib/type';
+import type { StoryFormApi } from '../model/story-form';
 import * as styles from './story-form.css';
 
 export const StoryForm = ({

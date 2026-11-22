@@ -60,9 +60,16 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const queryClient = new QueryClient();
-
 export default function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        onSettled: () => {},
+        onError: () => {},
+      },
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />

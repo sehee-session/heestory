@@ -10,15 +10,5 @@ export const PATHS = {
     BASE: '/users',
     STORY: (id: string) => `${PATHS.USERS.BASE}/${id}`,
   },
-  AUTH: {
-    SIGN_IN: '/sign-in',
-  },
-
-  API: {
-    AUTH: {
-      SIGN_IN: '/api/auth/sign-in',
-      SIGN_OUT: '/api/auth/sign-out',
-      CALLBACK: '/api/auth/callback',
-    },
-  },
+  AUTH: { SIGN_IN: '/sign-in' },
 } as const;

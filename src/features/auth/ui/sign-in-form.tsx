@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFetcher, useSearchParams } from 'react-router';
-import { PATHS } from '~/shared/constants';
+import { API_PATHS } from '~/shared/constants';
 import { toast } from '~/shared/lib/toast';
 import { Button } from '~/shared/ui';
 
@@ -32,7 +32,7 @@ export const SignInForm = () => {
   }, [searchParams, setSearchParams]);
 
   return (
-    <fetcher.Form method="post" action={PATHS.API.AUTH.SIGN_IN}>
+    <fetcher.Form method="post" action={API_PATHS.AUTH.SIGN_IN}>
       <input
         type="hidden"
         name="returnTo"
