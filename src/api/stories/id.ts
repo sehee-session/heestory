@@ -21,7 +21,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     );
   }
 
-  const user = requireAuth(request, context);
+  requireAuth(request, context);
 
   const supabase = context.get(supabaseContext);
 

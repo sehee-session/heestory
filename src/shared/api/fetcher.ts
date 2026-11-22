@@ -47,8 +47,12 @@ const requestWithBody = async <T>(
 };
 
 export const fetcher = {
-  get: <T>(url: string, init?: RequestInit) =>
-    request<T>(url, { ...init, method: 'GET' }),
+  get: <T>(url: string, searchParams?: URLSearchParams, init?: RequestInit) => {
+    const query = searchParams?.toString();
+    const requestUrl = query ? `${url}?${query}` : url;
+
+    return request<T>(requestUrl, { ...init, method: 'GET' });
+  },
 
   post: <T>(url: string, body?: unknown, init?: RequestInit) =>
     requestWithBody<T>('POST', url, body, init),
