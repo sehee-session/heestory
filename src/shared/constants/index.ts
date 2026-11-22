@@ -1,3 +1,3 @@
 export * from './api-paths';
-export * from './auth-error';
+export * from './common-error';
 export * from './paths';

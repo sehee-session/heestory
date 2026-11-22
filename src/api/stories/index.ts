@@ -5,20 +5,30 @@ import {
   STORY_ERROR,
 } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
-import { AUTH_ERROR } from '~/shared/constants';
+import { COMMON_ERROR } from '~/shared/constants';
 import { cloudflareContext } from '~/shared/lib';
 import { supabaseContext } from '~/shared/supabase';
-import type { Route } from './+types/create';
+import type { Route } from './+types/index';
 
 export const action = async ({ request, context }: Route.ActionArgs) => {
+  if (request.method !== 'POST') {
+    return data(
+      { error: COMMON_ERROR.METHOD_NOT_ALLOWED.message },
+      {
+        status: COMMON_ERROR.METHOD_NOT_ALLOWED.status,
+        headers: { Allow: 'POST' },
+      },
+    );
+  }
+
   requireAuth(request, context);
 
   const supabase = context.get(supabaseContext);
 
   if (!supabase) {
     return data(
-      { error: AUTH_ERROR.CONTEXT_NOT_FOUND.message },
-      { status: AUTH_ERROR.CONTEXT_NOT_FOUND.status },
+      { error: COMMON_ERROR.CONTEXT_NOT_FOUND.message },
+      { status: COMMON_ERROR.CONTEXT_NOT_FOUND.status },
     );
   }
 
@@ -29,8 +39,8 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   if (error || !session) {
     return data(
-      { error: AUTH_ERROR.SESSION_NOT_FOUND.message },
-      { status: AUTH_ERROR.SESSION_NOT_FOUND.status },
+      { error: COMMON_ERROR.SESSION_NOT_FOUND.message },
+      { status: COMMON_ERROR.SESSION_NOT_FOUND.status },
     );
   }
 

@@ -11,4 +11,8 @@ export const STORY_ERROR = {
     status: 404,
     message: '스토리를 찾을 수 없습니다.',
   },
+  UPDATE_FAILED: {
+    status: 500,
+    message: '스토리 수정에 실패했습니다.',
+  },
 } as const;

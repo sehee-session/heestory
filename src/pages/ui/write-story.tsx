@@ -1,7 +1,12 @@
 import { useForm } from '@tanstack/react-form';
 import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { StoryDetail, StoryForm, useWriteStory } from '~/entities/story';
+import {
+  STORY_TOAST_MESSAGE,
+  StoryDetail,
+  StoryForm,
+  useWriteStory,
+} from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
@@ -27,20 +32,12 @@ const Page = () => {
   const form = useForm({
     defaultValues: { title: '', content: '' },
     onSubmit: async ({ value }) => {
-      try {
-        const story = await mutation.mutateAsync({
-          title: value.title.trim(),
-          content: value.content.trim(),
-        });
-        toast.success('스토리가 저장되었습니다.');
-        navigate(PATHS.STORY.DETAIL(story.storyId));
-      } catch (error) {
-        toast.error(
-          error instanceof Error
-            ? error.message
-            : '스토리를 저장하지 못했습니다.',
-        );
-      }
+      const story = await mutation.mutateAsync({
+        title: value.title.trim(),
+        content: value.content.trim(),
+      });
+      toast.success(STORY_TOAST_MESSAGE.WRITE_SUCCESS);
+      navigate(PATHS.STORY.DETAIL(story.storyId));
     },
   });
   const navigate = useNavigate();
