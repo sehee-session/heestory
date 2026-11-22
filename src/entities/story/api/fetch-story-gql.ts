@@ -9,9 +9,9 @@ export const GET_STORY_GQL = gql`
           title
           summary
           content
-          thumbnailUrl: thumbnail_url
 
           userKey: user_key
+          thumbnailUrl: thumbnail_url
 
           createdAt: created_at
           updatedAt: updated_at
