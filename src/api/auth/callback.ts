@@ -21,6 +21,16 @@ const getSafeReturnTo = (value: string | null) => {
   return value;
 };
 
+const getSignInUrl = (returnTo: string | null) => {
+  if (!returnTo) {
+    return PATHS.AUTH.SIGN_IN;
+  }
+
+  const params = new URLSearchParams({ returnTo });
+
+  return `${PATHS.AUTH.SIGN_IN}?${params.toString()}`;
+};
+
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const supabase = context.get(supabaseContext);
 
@@ -29,14 +39,14 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const returnTo = getSafeReturnTo(url.searchParams.get('returnTo'));
 
   if (!supabase || !code) {
-    return redirect(PATHS.AUTH.SIGN_IN);
+    return redirect(getSignInUrl(returnTo));
   }
 
   const { data: authData, error } =
     await supabase.auth.exchangeCodeForSession(code);
 
   if (error || !authData.user || !authData.session) {
-    return redirect(PATHS.AUTH.SIGN_IN);
+    return redirect(getSignInUrl(returnTo));
   }
 
   const { env } = context.get(cloudflareContext);
@@ -47,10 +57,14 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
     accessToken: authData.session.access_token,
   });
 
-  await userRepository.syncUserProfile({
-    username: authData.user.user_metadata.user_name ?? null,
-    avatarUrl: authData.user.user_metadata.avatar_url ?? null,
-  });
+  try {
+    await userRepository.syncUserProfile({
+      username: authData.user.user_metadata.user_name ?? null,
+      avatarUrl: authData.user.user_metadata.avatar_url ?? null,
+    });
+  } catch (error) {
+    console.error('Failed to sync user profile:', error);
+  }
 
   return redirect(returnTo ?? PATHS.HOME);
 };
