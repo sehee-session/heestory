@@ -1,6 +1,11 @@
 import { data } from 'react-router';
-import { createStoryRepository, createStorySchema } from '~/entities/story';
+import {
+  createStoryRepository,
+  createStorySchema,
+  STORY_ERROR,
+} from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
+import { AUTH_ERROR } from '~/shared/constants';
 import { cloudflareContext } from '~/shared/lib';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/create';
@@ -11,7 +16,10 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   const supabase = context.get(supabaseContext);
 
   if (!supabase) {
-    return data({ error: '인증 정보를 찾을 수 없습니다.' }, { status: 500 });
+    return data(
+      { error: AUTH_ERROR.CONTEXT_NOT_FOUND.message },
+      { status: AUTH_ERROR.CONTEXT_NOT_FOUND.status },
+    );
   }
 
   const {
@@ -20,7 +28,10 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   } = await supabase.auth.getSession();
 
   if (error || !session) {
-    return data({ error: '인증 세션을 확인할 수 없습니다.' }, { status: 401 });
+    return data(
+      { error: AUTH_ERROR.SESSION_NOT_FOUND.message },
+      { status: AUTH_ERROR.SESSION_NOT_FOUND.status },
+    );
   }
 
   let body: unknown;
@@ -28,13 +39,19 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   try {
     body = await request.json();
   } catch {
-    return data({ error: '잘못된 요청입니다.' }, { status: 400 });
+    return data(
+      { error: STORY_ERROR.INVALID_INPUT.message },
+      { status: STORY_ERROR.INVALID_INPUT.status },
+    );
   }
 
   const parsed = createStorySchema.safeParse(body);
 
   if (!parsed.success) {
-    return data({ error: '입력한 내용을 확인해주세요.' }, { status: 400 });
+    return data(
+      { error: STORY_ERROR.INVALID_INPUT.message },
+      { status: STORY_ERROR.INVALID_INPUT.status },
+    );
   }
 
   const { env } = context.get(cloudflareContext);
@@ -49,8 +66,8 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   if (!result?.id) {
     return data(
-      { error: '스토리 저장 결과를 확인할 수 없습니다.' },
-      { status: 500 },
+      { error: STORY_ERROR.CREATE_FAILED.message },
+      { status: STORY_ERROR.CREATE_FAILED.status },
     );
   }
 
