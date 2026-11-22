@@ -24,10 +24,12 @@ export type RepositoryConfig = {
   accessToken?: string;
 };
 
-export const createRepository = (config: RepositoryConfig) => {
-  const client = createGraphqlClient(config);
+type RepositoryFactory<T> = (request: GraphQLClient['request']) => T;
 
-  return {
-    request: client.request.bind(client),
+export const createRepository =
+  <T>(factory: RepositoryFactory<T>) =>
+  (config: RepositoryConfig) => {
+    const client = createGraphqlClient(config);
+
+    return factory(client.request.bind(client));
   };
-};
