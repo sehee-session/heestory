@@ -9,6 +9,7 @@ export * from './md-helper';
 export * from './md-toc';
 export * from './md-viewer';
 export * from './spinner';
+export * from './tabs';
 export * from './terminal';
 export * from './textarea';
 export * from './toast-ui';
