@@ -1,6 +1,6 @@
 import { StoryCard, useStoryListQuery } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
-import { InfiniteScrollTrigger, Spinner } from '~/shared/ui';
+import { AsyncState, InfiniteScrollTrigger } from '~/shared/ui';
 
 export const InfiniteStoryList = () => {
   const {
@@ -15,16 +15,14 @@ export const InfiniteStoryList = () => {
 
   const stories = data?.pages.flatMap((page) => page.stories) ?? [];
 
-  if (isPending || 1 === 1) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <p>스토리를 불러오지 못했습니다.</p>;
-  }
-
   return (
-    <>
+    <AsyncState
+      isPending={isPending}
+      isError={isError}
+      isEmpty={stories.length === 0}
+      error={<p>스토리를 불러오지 못했습니다.</p>}
+      empty={<p>스토리가 없습니다.</p>}
+    >
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
@@ -41,6 +39,6 @@ export const InfiniteStoryList = () => {
           }}
         />
       )}
-    </>
+    </AsyncState>
   );
 };
