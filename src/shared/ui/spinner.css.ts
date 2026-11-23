@@ -14,32 +14,8 @@ const base = style({
 });
 
 export const spinner = styleVariants({
-  sm: [
-    base,
-    {
-      width: vars.size.sm,
-      height: vars.size.sm,
-    },
-  ],
-  md: [
-    base,
-    {
-      width: vars.size.md,
-      height: vars.size.md,
-    },
-  ],
-  lg: [
-    base,
-    {
-      width: vars.size.lg,
-      height: vars.size.lg,
-    },
-  ],
-  xl: [
-    base,
-    {
-      width: vars.size.xl,
-      height: vars.size.xl,
-    },
-  ],
+  sm: [base, { width: vars.size.sm, height: vars.size.sm }],
+  md: [base, { width: vars.size.md, height: vars.size.md }],
+  lg: [base, { width: vars.size.lg, height: vars.size.lg }],
+  xl: [base, { width: vars.size.xl, height: vars.size.xl }],
 });
