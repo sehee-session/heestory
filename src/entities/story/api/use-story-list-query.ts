@@ -6,14 +6,20 @@ import type { Story } from '../model/types';
 
 const PAGE_SIZE = 2;
 
-export const useStoryListQuery = () =>
+export const useStoryListQuery = ({ userKey }: { userKey?: string }) =>
   useInfiniteQuery({
-    queryKey: storyQueryKeys.lists(),
+    queryKey: storyQueryKeys.lists(userKey),
     queryFn: async ({ pageParam }) => {
-      const params = new URLSearchParams({ first: String(PAGE_SIZE) });
+      const params = new URLSearchParams({
+        first: String(PAGE_SIZE),
+      });
 
       if (pageParam) {
         params.set('after', pageParam);
+      }
+
+      if (userKey) {
+        params.set('user_key', userKey);
       }
 
       return fetcher.get<{

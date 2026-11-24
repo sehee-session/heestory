@@ -1,7 +1,6 @@
-import { PencilLineIcon } from 'lucide-react';
 import { PATHS } from '~/shared/constants';
 import { useAuth } from '~/shared/hooks';
-import { Button } from '~/shared/ui';
+import { Button, Icon } from '~/shared/ui';
 
 export const WriteStoryNavigationButton = () => {
   const { isAuthenticated } = useAuth();
@@ -12,7 +11,7 @@ export const WriteStoryNavigationButton = () => {
       aria-label="글쓰기"
       to={isAuthenticated ? PATHS.STORY.WRITE : PATHS.AUTH.SIGN_IN}
     >
-      <PencilLineIcon />
+      <Icon icon="write" />
     </Button>
   );
 };

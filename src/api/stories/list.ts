@@ -10,8 +10,8 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
     Number.isInteger(requestedFirst) && requestedFirst >= 1
       ? Math.min(requestedFirst, 12)
       : 10;
-
   const after = url.searchParams.get('after');
+  const userKey = url.searchParams.get('user_key');
 
   const { env } = context.get(cloudflareContext);
 
@@ -20,7 +20,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
   });
 
-  const result = await storyRepository.getStoryList({ first, after });
+  const result = await storyRepository.getStoryList({ first, after, userKey });
 
   return data(result);
 };

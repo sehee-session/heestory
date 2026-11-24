@@ -11,7 +11,7 @@ export default [
   route('sign-in', 'pages/ui/sign-in.tsx'),
 
   // user
-  route('users/:id', 'pages/ui/user.tsx'),
+  route('users/:username', 'pages/ui/user.tsx'),
 
   // action
   // theme
@@ -27,6 +27,10 @@ export default [
   route('api/stories/list', 'api/stories/list.ts'),
   route('api/stories/:id', 'api/stories/id.ts'),
   route('api/stories', 'api/stories/index.ts'),
-  //
+
+  // user
+  route('api/users', 'api/users/index.ts'),
+
+  // all-route
   route('*', 'pages/ui/not-found.tsx'),
 ] satisfies RouteConfig;

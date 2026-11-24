@@ -1,11 +1,3 @@
-import {
-  CheckCircle2Icon,
-  CircleAlertIcon,
-  InfoIcon,
-  LoaderCircleIcon,
-  TriangleAlertIcon,
-  XIcon,
-} from 'lucide-react';
 import { useSyncExternalStore } from 'react';
 import {
   getSnapshot,
@@ -15,6 +7,7 @@ import {
   type ToastType,
 } from '../lib/toast-store';
 import { Button } from './button';
+import { Icon } from './icon';
 import * as styles from './toast-ui.css';
 
 type ToastIconProps = {
@@ -61,7 +54,7 @@ const ToastItem = ({ toast }: ToastItemProps) => {
         aria-label="토스트 닫기"
         onClick={() => removeToast(id)}
       >
-        <XIcon size={16} />
+        <Icon icon="close" />
       </Button>
     </div>
   );
@@ -79,20 +72,21 @@ const ToastIcon = ({
 
   switch (type) {
     case 'info':
-      return <InfoIcon {...iconProps} {...props} />;
+      return <Icon icon="toast_info" {...iconProps} {...props} />;
 
     case 'success':
-      return <CheckCircle2Icon {...iconProps} {...props} />;
+      return <Icon icon="toast_success" {...iconProps} {...props} />;
 
     case 'error':
-      return <CircleAlertIcon {...iconProps} {...props} />;
+      return <Icon icon="toast_error" {...iconProps} {...props} />;
 
     case 'warning':
-      return <TriangleAlertIcon {...iconProps} {...props} />;
+      return <Icon icon="toast_warning" {...iconProps} {...props} />;
 
     case 'loading':
       return (
-        <LoaderCircleIcon
+        <Icon
+          icon="toast_loader"
           {...iconProps}
           {...props}
           className={styles.spinner}

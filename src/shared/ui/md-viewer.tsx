@@ -1,4 +1,3 @@
-import { ClipboardCheckIcon, ClipboardIcon } from 'lucide-react';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -7,6 +6,7 @@ import { extractHeadings } from '../lib/extract-headings';
 import { remarkHeadingId } from '../lib/remark-heading-id';
 import { toast } from '../lib/toast';
 import { Button } from './button';
+import { Icon } from './icon';
 import * as styles from './md-viewer.css';
 
 type MarkdownViewerProps = {
@@ -71,9 +71,9 @@ const MarkdownCodeBlock = ({
         onClick={handleCopy}
       >
         {copied ? (
-          <ClipboardCheckIcon size={16} />
+          <Icon icon="copy_success" size={16} />
         ) : (
-          <ClipboardIcon size={16} />
+          <Icon icon="copy" size={16} />
         )}
       </Button>
       <pre {...props}>{children}</pre>

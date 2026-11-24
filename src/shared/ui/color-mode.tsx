@@ -1,6 +1,6 @@
-import { MoonIcon, SunIcon } from 'lucide-react';
 import { useColorMode } from '../hooks/use-color-mode';
 import { Button } from './button';
+import { Icon } from './icon';
 
 export const ColorModeToggle = () => {
   const { isDark, isSubmitting, toggle } = useColorMode();
@@ -13,7 +13,7 @@ export const ColorModeToggle = () => {
       onClick={toggle}
       disabled={isSubmitting}
     >
-      {isDark ? <MoonIcon /> : <SunIcon />}
+      {isDark ? <Icon icon="darkmode" /> : <Icon icon="lightmode" />}
     </Button>
   );
 };
