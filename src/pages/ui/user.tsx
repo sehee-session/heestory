@@ -1,27 +1,56 @@
-import { UserInfo } from '~/entities/user';
+import { data, useLoaderData } from 'react-router';
+import { createUserRepository, UserInfo } from '~/entities/user';
+import { USER_ERROR } from '~/entities/user/constants/user-error';
 import { SignOutForm } from '~/features/auth';
+import { cloudflareContext } from '~/shared/lib';
 import { Header } from '~/widgets/header';
 import { InfiniteStoryList } from '~/widgets/story-list';
-import { user } from '../lib/mock.user';
 import type { Route } from './+types/user';
 import * as styles from './user.css';
 import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = ({ params }: Route.MetaArgs) => [
-  { title: `${params.id}'s history` },
+  { title: `${params.username}'s history` },
   {
     name: 'description',
-    content: `Explore ${params.id}'s developer stories and experiences.`,
+    content: `Explore ${params.username}'s developer stories and experiences.`,
   },
 ];
 
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
+  const { env } = context.get(cloudflareContext);
+
+  const userRepository = createUserRepository({
+    url: env.SUPABASE_URL,
+    apiKey: env.SUPABASE_PUBLISHABLE_KEY,
+  });
+
+  const { username } = params;
+
+  if (!username) {
+    throw data(USER_ERROR.USERNAME_REQUIRED.message, {
+      status: USER_ERROR.USERNAME_REQUIRED.status,
+    });
+  }
+
+  const user = await userRepository.fetchUser(username);
+
+  if (!user) {
+    throw data(USER_ERROR.NOT_FOUND.message, {
+      status: USER_ERROR.NOT_FOUND.status,
+    });
+  }
+
+  return { user };
+};
+
 const Page = ({ params }: Route.ComponentProps) => {
-  const { id } = params;
+  const { user } = useLoaderData();
 
   return (
     <>
       <Header
-        text={`${id}`}
+        text={`${params.username}`}
         actions={[
           <WriteStoryNavigationButton key="write" />,
           <SignOutForm key="sign-out" />,
@@ -29,7 +58,7 @@ const Page = ({ params }: Route.ComponentProps) => {
       />
       <UserInfo {...user} />
       <div className={styles.list}>
-        <InfiniteStoryList userKey={id} />
+        <InfiniteStoryList userKey={user.id} />
       </div>
     </>
   );

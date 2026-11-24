@@ -9,4 +9,7 @@ export const API_PATHS = {
     DETAIL: (id: string) => `${API_PATHS.STORY.BASE}/${id}`,
     LIST: '/api/stories/list',
   },
+  USER: {
+    BASE: '/api/users',
+  },
 } as const;
