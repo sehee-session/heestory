@@ -1,15 +1,6 @@
-import {
-  BoldIcon,
-  CodeIcon,
-  ItalicIcon,
-  LinkIcon,
-  ListIcon,
-  ListOrderedIcon,
-  StrikethroughIcon,
-  TableIcon,
-} from 'lucide-react';
 import { HEADING_SELECT, MARKDOWN_STRATEGIES } from '../constants/md-helper';
 import { Button } from './button';
+import { Icon } from './icon';
 import * as styles from './md-helper.css';
 
 type MarkdownStrategyValue =
@@ -68,7 +59,7 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.bold.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.bold.value)}
         >
-          <BoldIcon />
+          <Icon icon="bold" />
         </Button>
         <Button
           variant="icon"
@@ -77,7 +68,7 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.italic.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.italic.value)}
         >
-          <ItalicIcon />
+          <Icon icon="italic" />
         </Button>
         <Button
           variant="icon"
@@ -88,7 +79,7 @@ export const MarkdownHelper = ({
             onApplyStrategy(MARKDOWN_STRATEGIES.strikethrough.value)
           }
         >
-          <StrikethroughIcon />
+          <Icon icon="lineThrough" />
         </Button>
       </div>
 
@@ -100,7 +91,7 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.codeBlock.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.codeBlock.value)}
         >
-          <CodeIcon />
+          <Icon icon="code" />
         </Button>
         <Button
           variant="icon"
@@ -111,7 +102,7 @@ export const MarkdownHelper = ({
             onApplyStrategy(MARKDOWN_STRATEGIES.unorderedList.value)
           }
         >
-          <ListIcon />
+          <Icon icon="ul" />
         </Button>
         <Button
           variant="icon"
@@ -120,7 +111,7 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.orderedList.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.orderedList.value)}
         >
-          <ListOrderedIcon />
+          <Icon icon="ol" />
         </Button>
         <Button
           variant="icon"
@@ -129,7 +120,7 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.link.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.link.value)}
         >
-          <LinkIcon />
+          <Icon icon="link" />
         </Button>
         <Button
           variant="icon"
@@ -138,13 +129,13 @@ export const MarkdownHelper = ({
           title={MARKDOWN_STRATEGIES.table.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.table.value)}
         >
-          <TableIcon />
+          <Icon icon="table" />
         </Button>
         <Button
           variant="icon"
           type="button"
-          aria-label="Footnote"
-          title="Footnote"
+          aria-label={MARKDOWN_STRATEGIES.footnote.label}
+          title={MARKDOWN_STRATEGIES.footnote.label}
           onClick={() => onApplyStrategy(MARKDOWN_STRATEGIES.footnote.value)}
         >
           <span className={styles.footnoteIcon}>¹</span>

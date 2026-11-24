@@ -1,6 +1,5 @@
-import { RssIcon } from 'lucide-react';
 import { SignOutForm } from '~/features/auth';
-import { Tabs } from '~/shared/ui';
+import { Icon, Tabs } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { InfiniteStoryList } from '~/widgets/story-list';
 import { WriteStoryNavigationButton } from './write-story-navigation';
@@ -15,7 +14,7 @@ export const meta = () => [
 
 const TAB = { LATEST: 'latest' } as const;
 
-const tabs = [{ label: 'Latest', value: TAB.LATEST, Icon: RssIcon }];
+const tabs = [{ label: 'Latest', value: TAB.LATEST, icon: 'latest' }] as const;
 
 const Page = () => {
   return (
@@ -29,9 +28,9 @@ const Page = () => {
       />
       <Tabs.Root defaultValue={TAB.LATEST}>
         <Tabs.List>
-          {tabs.map(({ label, value, Icon }) => (
+          {tabs.map(({ label, value, icon }) => (
             <Tabs.Tab key={value} value={value}>
-              {<Icon size={16} />} {label}
+              {<Icon icon={icon} size={16} />} {label}
             </Tabs.Tab>
           ))}
           <Tabs.Indicator />

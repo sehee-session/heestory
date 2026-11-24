@@ -1,10 +1,10 @@
-import { CircleAlertIcon, FileTextIcon } from 'lucide-react';
 import { StoryCard, useStoryListQuery } from '~/entities/story';
 import { UserAuthor } from '~/entities/user';
 import {
   AsyncState,
   Button,
   Feedback,
+  Icon,
   InfiniteScrollTrigger,
 } from '~/shared/ui';
 
@@ -29,7 +29,7 @@ export const InfiniteStoryList = () => {
       isEmpty={stories.length === 0}
       error={
         <Feedback
-          thumbnail={<CircleAlertIcon size={48} />}
+          thumbnail={<Icon icon="error" size={48} />}
           title="스토리를 불러오지 못했습니다."
           description="데이터를 불러오지 못했습니다."
           action={
@@ -45,7 +45,7 @@ export const InfiniteStoryList = () => {
       }
       empty={
         <Feedback
-          thumbnail={<FileTextIcon size={48} />}
+          thumbnail={<Icon icon="empty" size={48} />}
           title="아직 스토리가 없습니다."
           description="첫 번째 스토리를 작성해 보세요."
           action={<Button>스토리 작성하기</Button>}

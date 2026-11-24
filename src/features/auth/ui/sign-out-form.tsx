@@ -1,8 +1,7 @@
-import { LogOutIcon } from 'lucide-react';
 import { Form, useNavigate } from 'react-router';
 import { useSignOut } from '~/entities/auth';
 import { useAuth } from '~/shared/hooks';
-import { Button } from '~/shared/ui';
+import { Button, Icon } from '~/shared/ui';
 
 export const SignOutForm = () => {
   const { isAuthenticated } = useAuth();
@@ -27,7 +26,7 @@ export const SignOutForm = () => {
         aria-label="로그아웃"
         disabled={mutation.isPending}
       >
-        <LogOutIcon />
+        <Icon icon="signOut" />
       </Button>
     </Form>
   );

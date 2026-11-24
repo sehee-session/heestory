@@ -1,5 +1,4 @@
 import { useForm } from '@tanstack/react-form';
-import { EyeIcon, PencilLineIcon, SaveIcon } from 'lucide-react';
 import { data, useLoaderData, useNavigate } from 'react-router';
 import {
   createStoryRepository,
@@ -15,7 +14,7 @@ import { PATHS } from '~/shared/constants/paths';
 import { useToggle } from '~/shared/hooks';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { toast } from '~/shared/lib/toast';
-import { Button } from '~/shared/ui';
+import { Button, Icon } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-story';
 
@@ -95,7 +94,7 @@ const Page = () => {
             aria-label="미리보기"
             onClick={onTogglePreview}
           >
-            {preview ? <PencilLineIcon /> : <EyeIcon />}
+            {preview ? <Icon icon="write" /> : <Icon icon="preview" />}
           </Button>,
           <Button
             key="save"
@@ -105,7 +104,7 @@ const Page = () => {
             onClick={() => form.handleSubmit()}
             disabled={mutation.isPending}
           >
-            <SaveIcon />
+            <Icon icon="save" />
           </Button>,
         ]}
       />

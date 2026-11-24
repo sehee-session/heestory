@@ -3,6 +3,7 @@ export * from './button';
 export * from './card';
 export * from './color-mode';
 export * from './feedback';
+export * from './icon';
 export * from './infinite-scroll-trigger';
 export * from './input';
 export * from './md-helper';
