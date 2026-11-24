@@ -44,7 +44,7 @@ export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
           thumbnail={<Icon icon="empty" size={48} />}
           title="아직 스토리가 없습니다."
           description="첫 번째 스토리를 작성해 보세요."
-<Button to="/stories/new">스토리 작성하기</Button>
+          action={<Button to="/stories/new">스토리 작성하기</Button>}
         />
       }
     >
