@@ -22,6 +22,9 @@ export const createUserRepository = createRepository((request) => ({
       } | null;
     }>(FETCH_USER_BY_USERNAME_GQL, { filter: { username: { eq: username } } });
 
-    return result.user_profilesCollection?.edges[0]?.node ?? null;
+const user = result.user_profilesCollection?.edges[0]?.node;
+return user
+  ? { id: user.id, username: user.username, avatarUrl: user.avatar_url }
+  : null;
   },
 }));
