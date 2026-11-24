@@ -14,6 +14,6 @@ export type Story = {
   userKey: string;
   userProfile: StoryAuthor | null;
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

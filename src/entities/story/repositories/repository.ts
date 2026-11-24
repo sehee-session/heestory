@@ -1,6 +1,7 @@
 import { createRepository } from '~/shared/api';
 import type { CreateStorySchema } from '../model/create-story-schema';
-import type { Story } from '../model/types';
+import type { Story } from '../model/entity';
+import type { StoryResponse } from '../model/response';
 import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY_GQL } from './create-story-gql';
 import { GET_STORY_GQL } from './fetch-story-gql';
@@ -10,7 +11,7 @@ import { UPDATE_STORY_GQL } from './update-story-gql';
 export const createStoryRepository = createRepository((request) => ({
   getStoryById: async (id?: string) => {
     const result = await request<{
-      storiesCollection: { edges: { node: Story }[] } | null;
+      storiesCollection: { edges: { node: StoryResponse }[] } | null;
     }>(GET_STORY_GQL, { id });
 
     return result.storiesCollection?.edges[0]?.node ?? null;
@@ -27,7 +28,7 @@ export const createStoryRepository = createRepository((request) => ({
   }) => {
     const result = await request<{
       storiesCollection: {
-        edges: { node: Story }[];
+        edges: { node: StoryResponse }[];
         pageInfo: { endCursor: string | null; hasNextPage: boolean };
       };
     }>(GET_STORY_LIST_GQL, {

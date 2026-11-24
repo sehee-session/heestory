@@ -6,6 +6,7 @@ import {
   STORY_TOAST_MESSAGE,
   StoryDetail,
   StoryForm,
+  storyResponseAdapter,
   useEditStory,
 } from '~/entities/story';
 import { requireAuth } from '~/shared/auth';
@@ -53,13 +54,13 @@ export const loader = async ({
     });
   }
 
-  if (story.userKey !== user.id) {
+  if (story.user_key !== user.id) {
     throw data(COMMON_ERROR.FORBIDDEN.message, {
       status: COMMON_ERROR.FORBIDDEN.status,
     });
   }
 
-  return { story, user };
+  return { story: storyResponseAdapter(story), user };
 };
 
 const Page = () => {
@@ -110,12 +111,10 @@ const Page = () => {
       />
       {preview ? (
         <StoryDetail
-          id={story?.id ?? ''}
           summary={story?.summary ?? ''}
           thumbnailUrl={story?.thumbnailUrl ?? ''}
           title={form.state.values.title}
           createdAt={story?.createdAt ?? ''}
-          updatedAt={new Date().toISOString()}
           content={form.state.values.content}
         />
       ) : (

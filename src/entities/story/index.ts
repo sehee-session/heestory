@@ -5,10 +5,11 @@ export * from './constants/story-error';
 export * from './constants/story-toast-message';
 
 export * from './lib/format-date';
+export * from './lib/story-response-adapter';
 
 export * from './api/use-story-list-query';
 export * from './model/create-story-schema';
-export * from './model/types';
+export * from './model/entity';
 export * from './model/update-story-schema';
 
 export * from './repositories/repository';

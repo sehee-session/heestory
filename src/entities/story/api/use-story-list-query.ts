@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetcher } from '~/shared/api';
 import { API_PATHS } from '~/shared/constants';
+import { storyResponseAdapter } from '../lib/story-response-adapter';
 import { storyQueryKeys } from '../model/query-keys';
-import type { Story } from '../model/types';
+import type { StoryResponse } from '../model/response';
 
 const PAGE_SIZE = 2;
 
@@ -23,7 +24,7 @@ export const useStoryListQuery = ({ userKey }: { userKey?: string }) =>
       }
 
       return fetcher.get<{
-        stories: Story[];
+        stories: StoryResponse[];
         nextCursor: string | null;
         hasNextPage: boolean;
       }>(API_PATHS.STORY.LIST, params);
@@ -33,4 +34,11 @@ export const useStoryListQuery = ({ userKey }: { userKey?: string }) =>
       lastPage.hasNextPage && lastPage.nextCursor
         ? lastPage.nextCursor
         : undefined,
+    select: (data) => ({
+      ...data,
+      pages: data.pages.map((page) => ({
+        ...page,
+        stories: page.stories.map(storyResponseAdapter),
+      })),
+    }),
   });

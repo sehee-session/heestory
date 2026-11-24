@@ -69,12 +69,10 @@ const Page = () => {
       />
       {preview ? (
         <StoryDetail
-          id={''}
-          summary={''}
+          summary=""
           thumbnailUrl=""
           title={form.state.values.title}
-          createdAt={new Date().toISOString()}
-          updatedAt={new Date().toISOString()}
+          createdAt={new Date()}
           content={form.state.values.content}
         />
       ) : (
