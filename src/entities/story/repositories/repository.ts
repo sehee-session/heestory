@@ -14,7 +14,7 @@ export const createStoryRepository = createRepository((request) => ({
       storiesCollection: { edges: { node: StoryResponse }[] } | null;
     }>(GET_STORY_GQL, { id });
 
-    return result.storiesCollection?.edges[0]?.node ?? null;
+    return result.storiesCollection?.edges?.at(0)?.node ?? null;
   },
 
   getStoryList: async ({
