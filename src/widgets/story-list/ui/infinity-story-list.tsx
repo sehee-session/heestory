@@ -1,4 +1,5 @@
 import { StoryCard, useStoryListQuery } from '~/entities/story';
+import { UserAuthor } from '~/entities/user';
 import {
   AsyncState,
   Button,
@@ -50,6 +51,7 @@ export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
+          {story.userProfile && <UserAuthor {...story.userProfile} />}
         </article>
       ))}
 

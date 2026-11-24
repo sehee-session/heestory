@@ -19,16 +19,22 @@ export const createStoryRepository = createRepository((request) => ({
   getStoryList: async ({
     first = 10,
     after = null,
+    userKey,
   }: {
     first?: number;
     after?: string | null;
+    userKey?: string | null;
   }) => {
     const result = await request<{
       storiesCollection: {
         edges: { node: Story }[];
         pageInfo: { endCursor: string | null; hasNextPage: boolean };
       };
-    }>(GET_STORY_LIST_GQL, { first, after });
+    }>(GET_STORY_LIST_GQL, {
+      first,
+      after,
+      filter: userKey ? { user_key: { eq: userKey } } : null,
+    });
 
     return {
       stories: result.storiesCollection.edges.map(({ node }) => node),

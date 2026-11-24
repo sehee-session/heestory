@@ -1,5 +1,5 @@
 export type StoryAuthor = {
-  username: string | null;
+  username: string;
   avatarUrl: string | null;
   id: string;
 };
