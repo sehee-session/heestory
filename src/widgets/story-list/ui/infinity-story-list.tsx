@@ -1,5 +1,4 @@
 import { StoryCard, useStoryListQuery } from '~/entities/story';
-import { UserAuthor } from '~/entities/user';
 import {
   AsyncState,
   Button,
@@ -8,7 +7,11 @@ import {
   InfiniteScrollTrigger,
 } from '~/shared/ui';
 
-export const InfiniteStoryList = () => {
+type InfiniteStoryListProps = {
+  userKey?: string;
+};
+
+export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
   const {
     data,
     fetchNextPage,
@@ -18,7 +21,7 @@ export const InfiniteStoryList = () => {
     isPending,
     isError,
     refetch,
-  } = useStoryListQuery();
+  } = useStoryListQuery({ userKey });
 
   const stories = data?.pages.flatMap((page) => page.stories) ?? [];
 
@@ -32,15 +35,7 @@ export const InfiniteStoryList = () => {
           thumbnail={<Icon icon="error" size={48} />}
           title="스토리를 불러오지 못했습니다."
           description="데이터를 불러오지 못했습니다."
-          action={
-            <Button
-              onClick={() => {
-                refetch();
-              }}
-            >
-              다시 시도
-            </Button>
-          }
+          action={<Button onClick={() => refetch()}>다시 시도</Button>}
         />
       }
       empty={
@@ -55,9 +50,9 @@ export const InfiniteStoryList = () => {
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
-          {story.userProfile && <UserAuthor {...story.userProfile} />}
         </article>
       ))}
+
       {hasNextPage && (
         <InfiniteScrollTrigger
           enabled={!isFetching}

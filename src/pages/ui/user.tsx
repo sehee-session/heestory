@@ -29,7 +29,7 @@ const Page = ({ params }: Route.ComponentProps) => {
       />
       <UserInfo {...user} />
       <div className={styles.list}>
-        <InfiniteStoryList />
+        <InfiniteStoryList userKey={id} />
       </div>
     </>
   );

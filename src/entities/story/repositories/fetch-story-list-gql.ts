@@ -1,10 +1,11 @@
 import { gql } from 'graphql-request';
 
 export const GET_STORY_LIST_GQL = gql`
-  query GetStoryList($first: Int!, $after: Cursor) {
+  query GetStoryList($first: Int!, $after: Cursor, $filter: StoriesFilter) {
     storiesCollection(
       first: $first
       after: $after
+      filter: $filter
       orderBy: [{ created_at: DescNullsLast }, { id: DescNullsLast }]
     ) {
       edges {
