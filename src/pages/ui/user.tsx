@@ -1,6 +1,5 @@
 import { data, useLoaderData } from 'react-router';
-import { createUserRepository, UserInfo } from '~/entities/user';
-import { USER_ERROR } from '~/entities/user/constants/user-error';
+import { createUserRepository, USER_ERROR, UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
 import { cloudflareContext } from '~/shared/lib';
 import { Header } from '~/widgets/header';
