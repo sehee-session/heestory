@@ -1,5 +1,5 @@
 import { data } from 'react-router';
-import { createUserRepository } from '~/entities/user';
+import { createUserRepository, USER_ERROR } from '~/entities/user';
 import { cloudflareContext } from '~/shared/lib';
 import type { Route } from './+types';
 
@@ -8,7 +8,9 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const username = url.searchParams.get('username');
 
   if (!username) {
-    return new Response('Username is required', { status: 400 });
+    return data(USER_ERROR.USERNAME_REQUIRED.message, {
+      status: USER_ERROR.USERNAME_REQUIRED.status,
+    });
   }
 
   const { env } = context.get(cloudflareContext);
@@ -17,7 +19,14 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
     url: env.SUPABASE_URL,
     apiKey: env.SUPABASE_PUBLISHABLE_KEY,
   });
-  const result = await userRepository.fetchUser(username);
 
-  return data(result);
+  const user = await userRepository.fetchUser(username);
+
+  if (!user) {
+    return data(USER_ERROR.NOT_FOUND.message, {
+      status: USER_ERROR.NOT_FOUND.status,
+    });
+  }
+
+  return data(user);
 };

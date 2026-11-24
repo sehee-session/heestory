@@ -1,3 +1,5 @@
+export * from './constants/user-error';
+
 export * from './model/types';
 
 export * from './repositories/repository';
