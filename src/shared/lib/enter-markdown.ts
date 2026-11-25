@@ -2,7 +2,7 @@ export const handleMarkdownEnter = (
   event: React.KeyboardEvent<HTMLTextAreaElement>,
   onChange: (value: string) => void,
 ) => {
-  if (event.key !== 'Enter' || event.shiftKey) return;
+  if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
 
   const textarea = event.currentTarget;
   const { value, selectionStart, selectionEnd } = textarea;
