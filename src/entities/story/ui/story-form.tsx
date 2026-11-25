@@ -1,4 +1,5 @@
 import React from 'react';
+import { handleMarkdownEnter } from '~/shared/lib';
 import { Input, MarkdownHelper, TextArea } from '~/shared/ui';
 import type { StoryFormApi } from '../model/story-form';
 import * as styles from './story-form.css';
@@ -45,6 +46,9 @@ export const StoryForm = ({
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(event) => field.handleChange(event.target.value)}
+              onKeyDown={(event) =>
+                handleMarkdownEnter(event, field.handleChange)
+              }
             />
           </label>
         )}
