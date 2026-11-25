@@ -1,6 +1,6 @@
 import { createRepository } from '~/shared/api';
+import { storyResponseAdapter } from '../lib/story-response-adapter';
 import type { CreateStorySchema } from '../model/create-story-schema';
-import type { Story } from '../model/entity';
 import type { StoryResponse } from '../model/response';
 import type { UpdateStorySchema } from '../model/update-story-schema';
 import { CREATE_STORY_GQL } from './create-story-gql';
@@ -14,7 +14,9 @@ export const createStoryRepository = createRepository((request) => ({
       storiesCollection: { edges: { node: StoryResponse }[] } | null;
     }>(GET_STORY_GQL, { id });
 
-    return result.storiesCollection?.edges?.at(0)?.node ?? null;
+    return result.storiesCollection?.edges?.at(0)?.node
+      ? storyResponseAdapter(result.storiesCollection.edges[0].node)
+      : null;
   },
 
   getStoryList: async ({
@@ -38,7 +40,9 @@ export const createStoryRepository = createRepository((request) => ({
     });
 
     return {
-      stories: result.storiesCollection.edges.map(({ node }) => node),
+      stories: result.storiesCollection.edges.map(({ node }) =>
+        storyResponseAdapter(node),
+      ),
       nextCursor: result.storiesCollection.pageInfo.endCursor,
       hasNextPage: result.storiesCollection.pageInfo.hasNextPage,
     };
@@ -46,17 +50,21 @@ export const createStoryRepository = createRepository((request) => ({
 
   createStory: async ({ title, content }: CreateStorySchema) => {
     const result = await request<{
-      insertIntostoriesCollection: { records: Story[] };
+      insertIntostoriesCollection: { records: StoryResponse[] };
     }>(CREATE_STORY_GQL, { title, content });
 
-    return result.insertIntostoriesCollection.records[0] ?? null;
+    return result.insertIntostoriesCollection.records[0]
+      ? storyResponseAdapter(result.insertIntostoriesCollection.records[0])
+      : null;
   },
 
   updateStory: async ({ id, title, content, userKey }: UpdateStorySchema) => {
     const result = await request<{
-      updatestoriesCollection: { records: Story[] };
+      updatestoriesCollection: { records: StoryResponse[] };
     }>(UPDATE_STORY_GQL, { id, title, content, userKey });
 
-    return result.updatestoriesCollection.records[0] ?? null;
+    return result.updatestoriesCollection.records[0]
+      ? storyResponseAdapter(result.updatestoriesCollection.records[0])
+      : null;
   },
 }));
