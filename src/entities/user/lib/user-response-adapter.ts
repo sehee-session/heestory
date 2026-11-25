@@ -7,4 +7,5 @@ export const userResponseAdapter = (response: UserResponse | null): User => ({
   avatarUrl: response?.avatar_url ?? null,
   createdAt: response?.created_at ? new Date(response.created_at) : new Date(),
   updatedAt: response?.updated_at ? new Date(response.updated_at) : new Date(),
+  intro: response?.intro ?? null,
 });

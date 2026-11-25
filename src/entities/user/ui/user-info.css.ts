@@ -21,20 +21,15 @@ export const content = style({
   gap: vars.spacing.xs,
 });
 
-export const username = style({
-  fontSize: vars.fontSize.lg,
-  fontWeight: vars.fontWeight.semibold,
-  color: vars.color.text,
+export const link = style({
+  fontSize: vars.fontSize.md,
+  color: vars.color.accent,
+  textDecoration: 'none',
+  ':hover': { textDecoration: 'underline' },
 });
 
-// export const nickname = style({
-//   fontSize: vars.fontSize.sm,
-//   color: vars.color.textDim,
-//   fontFamily: 'monospace',
-// });
-
-// export const intro = style({
-//   fontSize: vars.fontSize.md,
-//   color: vars.color.text,
-//   lineHeight: 1.5,
-// });
+export const intro = style({
+  fontSize: vars.fontSize.sm,
+  color: vars.color.textDim,
+  lineHeight: 1.5,
+});
