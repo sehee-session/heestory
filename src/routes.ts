@@ -31,6 +31,7 @@ export default [
 
   // user
   route('api/users', 'api/users/index.ts'),
+  route('api/users/:id', 'api/users/id.ts'),
 
   // all-route
   route('*', 'pages/ui/not-found.tsx'),

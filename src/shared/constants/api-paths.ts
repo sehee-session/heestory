@@ -11,5 +11,6 @@ export const API_PATHS = {
   },
   USER: {
     BASE: '/api/users',
+    DETAIL: (id: string) => `${API_PATHS.USER.BASE}/${id}`,
   },
 } as const;
