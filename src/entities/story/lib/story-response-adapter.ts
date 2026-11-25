@@ -11,11 +11,11 @@ export const storyResponseAdapter = (
     summary: storyResponse?.summary ?? '',
     content: storyResponse?.content ?? '',
     userKey: storyResponse?.user_key ?? '',
-    userProfile: storyResponse?.user_profile
+    userProfile: storyResponse?.user_profiles
       ? {
-          id: storyResponse.user_profile.id,
-          username: storyResponse.user_profile.name,
-          avatarUrl: storyResponse.user_profile.profile_url,
+          id: storyResponse.user_profiles.id,
+          username: storyResponse.user_profiles.username,
+          avatarUrl: storyResponse.user_profiles.avatar_url,
         }
       : null,
     createdAt: storyResponse?.created_at

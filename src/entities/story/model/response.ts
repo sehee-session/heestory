@@ -1,7 +1,7 @@
 export type StoryAuthorResponse = {
   id: string;
-  name: string;
-  profile_url: string | null;
+  username: string;
+  avatar_url: string | null;
 };
 
 export type StoryResponse = {
@@ -12,7 +12,7 @@ export type StoryResponse = {
   content: string;
 
   user_key: string;
-  user_profile: StoryAuthorResponse | null;
+  user_profiles: StoryAuthorResponse | null;
 
   created_at: string;
   updated_at: string;

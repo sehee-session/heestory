@@ -16,7 +16,7 @@ export const GET_STORY_GQL = gql`
           user_profiles {
             id
             username
-            avatarUrl: avatar_url
+            avatar_url
           }
 
           created_at
