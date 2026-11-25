@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetcher } from '~/shared/api';
 import { API_PATHS } from '~/shared/constants';
+import type { Story } from '../model/entity';
 import { storyQueryKeys } from '../model/query-keys';
-import type { StoryResponse } from '../model/response';
 
 const PAGE_SIZE = 2;
 
@@ -23,7 +23,7 @@ export const useStoryListQuery = ({ userKey }: { userKey?: string }) =>
       }
 
       return fetcher.get<{
-        stories: StoryResponse[];
+        stories: Story[];
         nextCursor: string | null;
         hasNextPage: boolean;
       }>(API_PATHS.STORY.LIST, params);

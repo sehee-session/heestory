@@ -11,7 +11,7 @@ export const storyResponseAdapter = (
     summary: storyResponse?.summary ?? '',
     content: storyResponse?.content ?? '',
     userKey: storyResponse?.user_key ?? '',
-    userProfile: storyResponse?.user_profiles
+    userProfiles: storyResponse?.user_profiles
       ? {
           id: storyResponse.user_profiles.id,
           username: storyResponse.user_profiles.username,

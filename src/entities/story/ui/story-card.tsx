@@ -15,7 +15,7 @@ export const StoryCard = ({
   <Link to={PATHS.STORY.DETAIL(id)} className={styles.card}>
     <StoryThumbnail thumbnailUrl={thumbnailUrl} />
     <div className={styles.content}>
-      <time className={styles.date} dateTime={createdAt.toISOString()}>
+      <time className={styles.date} dateTime={createdAt?.toISOString()}>
         {formatDate(createdAt)}
       </time>
       <h2 className={styles.title}>{title}</h2>

@@ -51,7 +51,7 @@ export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
-          {story.userProfile && <UserAuthor {...story.userProfile} />}
+          {story.userProfiles && <UserAuthor {...story.userProfiles} />}
         </article>
       ))}
 

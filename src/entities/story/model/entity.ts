@@ -12,7 +12,7 @@ export type Story = {
   content: string;
 
   userKey: string;
-  userProfile: StoryAuthor | null;
+  userProfiles: StoryAuthor | null;
 
   createdAt: Date;
   updatedAt: Date;
