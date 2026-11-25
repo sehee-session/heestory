@@ -3,6 +3,7 @@ import {
   createStoryRepository,
   STORY_ERROR,
   StoryDetail,
+  storyResponseAdapter,
 } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
@@ -44,7 +45,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
     });
   }
 
-  return { story };
+  return { story: storyResponseAdapter(story) };
 };
 
 const Page = () => {
@@ -61,7 +62,7 @@ const Page = () => {
       />
       <StoryDetail {...story} />
       <MarkdownToc {...story} />
-      {story.userProfile && <UserInfo {...story.userProfile} />}
+      {story.userProfiles && <UserInfo {...story.userProfiles} />}
     </>
   );
 };

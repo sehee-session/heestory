@@ -15,17 +15,17 @@ export const GET_STORY_LIST_GQL = gql`
           title
           summary
           content
-          thumbnailUrl: thumbnail_url
-          userKey: user_key
+          thumbnail_url
+          user_key
 
-          userProfile: user_profiles {
+          user_profiles {
             id
             username
-            avatarUrl: avatar_url
+            avatar_url
           }
 
-          createdAt: created_at
-          updatedAt: updated_at
+          created_at
+          updated_at
         }
       }
       pageInfo {

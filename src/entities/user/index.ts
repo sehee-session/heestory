@@ -1,6 +1,8 @@
 export * from './constants/user-error';
 
-export * from './model/types';
+export * from './lib/user-response-adapter';
+
+export * from './model/entity';
 
 export * from './repositories/repository';
 
