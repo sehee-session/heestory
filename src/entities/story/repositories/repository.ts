@@ -1,5 +1,4 @@
 import { createRepository } from '~/shared/api';
-import { storyResponseAdapter } from '../lib/story-response-adapter';
 import type { CreateStorySchema } from '../model/create-story-schema';
 import type { StoryResponse } from '../model/response';
 import type { UpdateStorySchema } from '../model/update-story-schema';
@@ -14,9 +13,7 @@ export const createStoryRepository = createRepository((request) => ({
       storiesCollection: { edges: { node: StoryResponse }[] } | null;
     }>(GET_STORY_GQL, { id });
 
-    return result.storiesCollection?.edges?.at(0)?.node
-      ? storyResponseAdapter(result.storiesCollection.edges[0].node)
-      : null;
+    return result.storiesCollection?.edges?.at(0)?.node;
   },
 
   getStoryList: async ({
@@ -40,9 +37,7 @@ export const createStoryRepository = createRepository((request) => ({
     });
 
     return {
-      stories: result.storiesCollection.edges.map(({ node }) =>
-        storyResponseAdapter(node),
-      ),
+      stories: result.storiesCollection.edges.map(({ node }) => node),
       nextCursor: result.storiesCollection.pageInfo.endCursor,
       hasNextPage: result.storiesCollection.pageInfo.hasNextPage,
     };
@@ -53,9 +48,7 @@ export const createStoryRepository = createRepository((request) => ({
       insertIntostoriesCollection: { records: StoryResponse[] };
     }>(CREATE_STORY_GQL, { title, content });
 
-    return result.insertIntostoriesCollection.records[0]
-      ? storyResponseAdapter(result.insertIntostoriesCollection.records[0])
-      : null;
+    return result.insertIntostoriesCollection.records[0];
   },
 
   updateStory: async ({ id, title, content, userKey }: UpdateStorySchema) => {
@@ -63,8 +56,6 @@ export const createStoryRepository = createRepository((request) => ({
       updatestoriesCollection: { records: StoryResponse[] };
     }>(UPDATE_STORY_GQL, { id, title, content, userKey });
 
-    return result.updatestoriesCollection.records[0]
-      ? storyResponseAdapter(result.updatestoriesCollection.records[0])
-      : null;
+    return result.updatestoriesCollection.records[0] ?? null;
   },
 }));

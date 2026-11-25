@@ -9,7 +9,10 @@ export const StoryDetail = ({
   title,
   content,
   createdAt,
-}: Omit<Story, 'id' | 'updatedAt' | 'userProfile' | 'userKey'>) => {
+}: Omit<
+  Story,
+  'id' | 'updatedAt' | 'userProfile' | 'userKey' | 'userProfiles'
+>) => {
   return (
     <div className={styles.root}>
       <StoryThumbnail thumbnailUrl={thumbnailUrl ?? ''} />
