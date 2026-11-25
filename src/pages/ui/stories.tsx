@@ -2,6 +2,7 @@ import { SignOutForm } from '~/features/auth';
 import { Icon, Tabs } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import { InfiniteStoryList } from '~/widgets/story-list';
+import { UserDetailNavigationButton } from './user-detail-navigation';
 import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = () => [
@@ -23,6 +24,7 @@ const Page = () => {
         text="stories"
         actions={[
           <WriteStoryNavigationButton key="write" />,
+          <UserDetailNavigationButton key="user-detail" />,
           <SignOutForm key="sign-out" />,
         ]}
       />

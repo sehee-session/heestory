@@ -11,6 +11,7 @@ export default [
   route('sign-in', 'pages/ui/sign-in.tsx'),
 
   // user
+  route('users/:username/edit', 'pages/ui/edit-user.tsx'),
   route('users/:username', 'pages/ui/user.tsx'),
 
   // action

@@ -71,7 +71,7 @@ const Page = ({ params }: Route.ComponentProps) => {
             <Button
               variant="icon"
               aria-label="settings"
-              to={PATHS.USERS.SETTINGS()}
+              to={PATHS.USERS.EDIT(user?.username)}
             >
               <Icon key="settings" icon="settings" />
             </Button>

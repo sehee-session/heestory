@@ -6,7 +6,7 @@ import * as styles from './user-author.css';
 type UserAuthorProps = Pick<StoryAuthor, 'username' | 'avatarUrl'>;
 
 export const UserAuthor = ({ username, avatarUrl }: UserAuthorProps) => (
-  <Link to={PATHS.USERS.STORY(username)} className={styles.author}>
+  <Link to={PATHS.USERS.DETAIL(username)} className={styles.author}>
     {avatarUrl ? (
       <img className={styles.avatar} src={avatarUrl} alt="" />
     ) : (
