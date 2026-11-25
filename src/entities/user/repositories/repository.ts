@@ -9,7 +9,7 @@ export const createUserRepository = createRepository((request) => ({
     username: string | null;
     avatarUrl: string | null;
   }) => {
-    const result = await request<{
+    await request<{
       sync_user_profile: {
         id: string;
         username: string | null;
@@ -17,8 +17,6 @@ export const createUserRepository = createRepository((request) => ({
         updated_at: string;
       };
     }>(SYNC_USER_PROFILE_GQL, params);
-
-    return result.sync_user_profile;
   },
   fetchUser: async (username: string) => {
     const result = await request<{
