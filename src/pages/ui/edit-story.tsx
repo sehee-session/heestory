@@ -114,7 +114,7 @@ const Page = () => {
           summary={story?.summary ?? ''}
           thumbnailUrl={story?.thumbnailUrl ?? ''}
           title={form.state.values.title}
-          createdAt={story?.createdAt ?? ''}
+createdAt={story?.createdAt ?? new Date()}
           content={form.state.values.content}
         />
       ) : (
