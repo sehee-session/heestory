@@ -10,9 +10,13 @@ import {
 
 type InfiniteStoryListProps = {
   userKey?: string;
+  showAuthor?: boolean;
 };
 
-export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
+export const InfiniteStoryList = ({
+  userKey,
+  showAuthor = false,
+}: InfiniteStoryListProps) => {
   const {
     data,
     fetchNextPage,
@@ -51,7 +55,9 @@ export const InfiniteStoryList = ({ userKey }: InfiniteStoryListProps) => {
       {stories.map((story) => (
         <article key={story.id}>
           <StoryCard {...story} />
-          {story.userProfiles && <UserAuthor {...story.userProfiles} />}
+          {showAuthor && story.userProfiles && (
+            <UserAuthor {...story.userProfiles} />
+          )}
         </article>
       ))}
 

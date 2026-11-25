@@ -36,7 +36,7 @@ const Page = () => {
           <Tabs.Indicator />
         </Tabs.List>
         <Tabs.Panel value={TAB.LATEST}>
-          <InfiniteStoryList />
+          <InfiniteStoryList showAuthor />
         </Tabs.Panel>
       </Tabs.Root>
     </main>

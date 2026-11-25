@@ -1,4 +1,4 @@
-import { data, useLoaderData } from 'react-router';
+import { data, useLoaderData, useRouteLoaderData } from 'react-router';
 import {
   createUserRepository,
   USER_ERROR,
@@ -6,7 +6,10 @@ import {
   userResponseAdapter,
 } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
+import { PATHS } from '~/shared/constants/paths';
 import { cloudflareContext } from '~/shared/lib';
+import { Button } from '~/shared/ui';
+import { Icon } from '~/shared/ui/icon';
 import { Header } from '~/widgets/header';
 import { InfiniteStoryList } from '~/widgets/story-list';
 import type { Route } from './+types/user';
@@ -50,6 +53,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
 
 const Page = ({ params }: Route.ComponentProps) => {
   const { user } = useLoaderData();
+  const { user: me } = useRouteLoaderData('root');
 
   return (
     <>
@@ -60,7 +64,20 @@ const Page = ({ params }: Route.ComponentProps) => {
           <SignOutForm key="sign-out" />,
         ]}
       />
-      <UserInfo {...user} />
+      <UserInfo
+        {...user}
+        actions={
+          me?.id === user.id ? (
+            <Button
+              variant="icon"
+              aria-label="settings"
+              to={PATHS.USERS.SETTINGS()}
+            >
+              <Icon key="settings" icon="settings" />
+            </Button>
+          ) : undefined
+        }
+      />
       <div className={styles.list}>
         <InfiniteStoryList userKey={user.id} />
       </div>

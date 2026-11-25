@@ -19,6 +19,7 @@ export const content = style({
   display: 'flex',
   flexDirection: 'column',
   gap: vars.spacing.xs,
+  flex: 1,
 });
 
 export const link = style({
@@ -32,4 +33,10 @@ export const intro = style({
   fontSize: vars.fontSize.sm,
   color: vars.color.textDim,
   lineHeight: 1.5,
+});
+
+export const actions = style({
+  display: 'flex',
+  gap: vars.spacing.sm,
+  flexDirection: 'row',
 });

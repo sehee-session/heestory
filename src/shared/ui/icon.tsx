@@ -19,6 +19,7 @@ import {
   PenLineIcon,
   RssIcon,
   SaveIcon,
+  SettingsIcon,
   StrikethroughIcon,
   SunIcon,
   TableIcon,
@@ -37,6 +38,7 @@ const ICON_LIST = {
   lightmode: SunIcon,
   darkmode: MoonIcon,
   close: XIcon,
+  settings: SettingsIcon,
 
   // api status icon
   error: CircleAlertIcon,
