@@ -1,10 +1,5 @@
 import { data, useLoaderData } from 'react-router';
-import {
-  createUserRepository,
-  USER_ERROR,
-  UserInfo,
-  userResponseAdapter,
-} from '~/entities/user';
+import { createUserRepository, USER_ERROR, UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
 import { cloudflareContext } from '~/shared/lib';
 import { Header } from '~/widgets/header';
@@ -45,7 +40,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
     });
   }
 
-  return { user: userResponseAdapter(user) };
+  return { user };
 };
 
 const Page = ({ params }: Route.ComponentProps) => {

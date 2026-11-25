@@ -1,4 +1,5 @@
 import { createRepository } from '~/shared/api';
+import { userResponseAdapter } from '../lib/user-response-adapter';
 import type { UserResponse } from '../model/response';
 import { FETCH_USER_BY_USERNAME_GQL } from './fetch-user-gql';
 import { SYNC_USER_PROFILE_GQL } from './sync-profile-gql';
@@ -27,6 +28,6 @@ export const createUserRepository = createRepository((request) => ({
     }>(FETCH_USER_BY_USERNAME_GQL, { filter: { username: { eq: username } } });
 
     const user = result.user_profilesCollection?.edges?.at(0)?.node;
-    return user;
+    return user ? userResponseAdapter(user) : null;
   },
 }));
