@@ -17,6 +17,9 @@ export const MarkdownHelper = ({
     const textarea = textareaRef.current;
     if (!textarea) return;
 
+    const scrollTop = textarea.scrollTop;
+    const scrollLeft = textarea.scrollLeft;
+
     const result = MARKDOWN_STRATEGIES[key].execute({
       value: textarea.value,
       selectionStart: textarea.selectionStart,
@@ -26,8 +29,12 @@ export const MarkdownHelper = ({
     onChangeTextarea(result.text);
 
     requestAnimationFrame(() => {
-      textarea.focus();
+      textarea.focus({ preventScroll: true });
+
       textarea.setSelectionRange(result.selectionStart, result.selectionEnd);
+
+      textarea.scrollTop = scrollTop;
+      textarea.scrollLeft = scrollLeft;
     });
   };
 
