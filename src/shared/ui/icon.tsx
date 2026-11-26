@@ -24,6 +24,7 @@ import {
   SunIcon,
   TableIcon,
   TriangleAlertIcon,
+  UserXIcon,
   XIcon,
 } from 'lucide-react';
 
@@ -39,6 +40,8 @@ const ICON_LIST = {
   darkmode: MoonIcon,
   close: XIcon,
   settings: SettingsIcon,
+
+  withdrawal: UserXIcon,
 
   // api status icon
   error: CircleAlertIcon,

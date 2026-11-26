@@ -34,7 +34,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     );
   }
 
-  const callbackUrl = new URL(API_PATHS.AUTH.CALLBACK, request.url);
+  const callbackUrl = new URL(API_PATHS.AUTH.CALLBACK(), request.url);
   const { returnTo } = parsedBody.data;
 
   if (returnTo.startsWith('/') && !returnTo.startsWith('//')) {

@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import * as styles from './textarea.css';
 
 export const Textarea = (props: React.ComponentProps<'textarea'>) => (

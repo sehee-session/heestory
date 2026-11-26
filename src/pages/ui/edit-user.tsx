@@ -7,6 +7,7 @@ import {
   USER_ERROR,
   USER_TOAST_MESSAGE,
 } from '~/entities/user';
+import { WithdrawalForm } from '~/features/auth';
 import { authUserContext } from '~/shared/auth';
 import { COMMON_ERROR, PATHS } from '~/shared/constants';
 import { cloudflareContext } from '~/shared/lib/cloudflare';
@@ -14,6 +15,7 @@ import { toast } from '~/shared/lib/toast';
 import { Button, Icon } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-user';
+import * as styles from './edit-user.css';
 
 export const loader = async ({ params, context }: Route.LoaderArgs) => {
   const { env } = context.get(cloudflareContext);
@@ -83,7 +85,13 @@ const Page = ({ params }: Route.ComponentProps) => {
           </Button>,
         ]}
       />
-      <EditUserIntroForm form={form} />
+      <main className={styles.main}>
+        <div className={styles.section}>
+          <h2>{params.username} 정보 수정</h2>
+          <EditUserIntroForm form={form} />
+        </div>
+        <WithdrawalForm />
+      </main>
     </>
   );
 };

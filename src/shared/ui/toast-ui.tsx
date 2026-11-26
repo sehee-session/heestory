@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+import React from 'react';
 import {
   getSnapshot,
   removeToast,
@@ -19,7 +19,11 @@ type ToastItemProps = {
 };
 
 export const ToastProvider = () => {
-  const toasts = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const toasts = React.useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getSnapshot,
+  );
 
   return (
     <div className={styles.viewport}>
