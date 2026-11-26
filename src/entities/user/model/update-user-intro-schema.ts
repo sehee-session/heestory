@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const updateUserIntroSchema = z.object({
-  intro: z.string().min(1),
+  intro: z.string(),
 });
 
 export type UpdateUserIntroSchema = z.infer<typeof updateUserIntroSchema>;
