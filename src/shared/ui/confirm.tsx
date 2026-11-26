@@ -41,8 +41,8 @@ export const Confirm = ({
   return (
     <AlertDialog.Root open={open} onOpenChange={setOpen}>
       <AlertDialog.Trigger render={trigger} />
-      <AlertDialog.Backdrop className={styles.backdrop} />
       <AlertDialog.Portal>
+        <AlertDialog.Backdrop className={styles.backdrop} />
         <AlertDialog.Viewport className={styles.viewport}>
           <AlertDialog.Popup>
             <div className={styles.popup}>
