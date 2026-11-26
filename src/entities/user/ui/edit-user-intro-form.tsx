@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Input } from '~/shared/ui/input';
+import { Input } from '~/shared/ui';
 import type { UserIntroFormApi } from '../model/user-intro-form';
 import * as styles from './edit-user-intro-form.css';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { handleMarkdownEnter } from '~/shared/lib';
-import { Input, MarkdownHelper, TextArea } from '~/shared/ui';
+import { Input, MarkdownHelper, Textarea } from '~/shared/ui';
 import type { StoryFormApi } from '../model/story-form';
 import * as styles from './story-form.css';
 
@@ -37,7 +37,7 @@ export const StoryForm = ({
               textareaRef={ref}
               onChangeTextarea={field.handleChange}
             />
-            <TextArea
+            <Textarea
               ref={ref}
               rows={15}
               placeholder="Tell your story..."
