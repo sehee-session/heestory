@@ -92,5 +92,12 @@ export const action = async ({
     intro: parsedBody.data.intro,
   });
 
+  if (!result?.username) {
+    return data(
+      { error: USER_ERROR.UPDATE_FAILED.message },
+      { status: USER_ERROR.UPDATE_FAILED.status },
+    );
+  }
+
   return data(result, { status: 200 });
 };
