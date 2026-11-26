@@ -1,5 +1,5 @@
 import React from 'react';
-import { handleMarkdownEnter } from '~/shared/lib';
+import { handleMarkdownEnter } from '~/shared/libs';
 import { Input, MarkdownHelper, Textarea } from '~/shared/ui';
 import type { StoryFormApi } from '../model/story-form';
 import * as styles from './story-form.css';

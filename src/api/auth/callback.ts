@@ -1,7 +1,7 @@
 import { redirect } from 'react-router';
 import { createUserRepository } from '~/entities/user';
 import { PATHS } from '~/shared/constants';
-import { cloudflareContext } from '~/shared/lib/cloudflare';
+import { cloudflareContext } from '~/shared/libs/cloudflare';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/callback';
 

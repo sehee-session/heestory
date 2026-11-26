@@ -9,8 +9,8 @@ import {
 } from '~/entities/user';
 import { authUserContext } from '~/shared/auth';
 import { COMMON_ERROR, PATHS } from '~/shared/constants';
-import { cloudflareContext } from '~/shared/lib/cloudflare';
-import { toast } from '~/shared/lib/toast';
+import { cloudflareContext } from '~/shared/libs/cloudflare';
+import { toast } from '~/shared/libs/toast';
 import { Button, Icon } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/edit-user';

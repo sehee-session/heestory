@@ -9,7 +9,7 @@ import {
 import { requireAuth } from '~/shared/auth';
 import { PATHS } from '~/shared/constants';
 import { useToggle } from '~/shared/hooks';
-import { toast } from '~/shared/lib/toast';
+import { toast } from '~/shared/libs/toast';
 import { Button, Icon } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/write-story';

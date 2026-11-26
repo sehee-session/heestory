@@ -1,5 +1,5 @@
 import React from 'react';
-import { extractHeadings } from '../lib/extract-headings';
+import { extractHeadings } from '../libs/extract-headings';
 import * as styles from './md-toc.css';
 
 type MarkdownTocProps = {

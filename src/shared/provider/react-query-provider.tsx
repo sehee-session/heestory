@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { toast } from '../lib/toast';
+import { toast } from '../libs/toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
