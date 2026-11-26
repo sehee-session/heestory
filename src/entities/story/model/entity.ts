@@ -2,7 +2,7 @@ export type StoryAuthor = {
   username: string;
   avatarUrl: string | null;
   id: string;
-  intro: string | null;
+  intro?: string | null;
 };
 
 export type Story = {
