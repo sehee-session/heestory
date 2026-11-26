@@ -70,8 +70,16 @@ export const action = async ({
     );
   }
 
-  const body = await request.json();
-  const parsedBody = updateUserIntroSchema.safeParse(body);
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return data(
+      { error: USER_ERROR.INVALID_INPUT.message },
+      { status: USER_ERROR.INVALID_INPUT.status },
+    );
+  }
   if (!parsedBody.success) {
     return data(
       { error: USER_ERROR.INVALID_INPUT.message },
