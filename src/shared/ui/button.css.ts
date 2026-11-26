@@ -73,4 +73,17 @@ export const buttonVariants = styleVariants({
       },
     },
   ],
+
+  warning: [
+    base,
+    {
+      backgroundColor: vars.color.error,
+      color: vars.color.bg,
+      border: `1px solid ${vars.color.error}`,
+
+      ':hover': {
+        opacity: 0.9,
+      },
+    },
+  ],
 });

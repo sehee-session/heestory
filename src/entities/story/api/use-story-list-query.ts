@@ -27,7 +27,7 @@ export const useStoryListQuery = ({ userKey }: { userKey?: string }) =>
         stories: StoryResponse[];
         nextCursor: string | null;
         hasNextPage: boolean;
-      }>(API_PATHS.STORY.LIST, params);
+      }>(API_PATHS.STORY.LIST(), params);
     },
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) =>

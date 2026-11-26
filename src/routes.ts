@@ -11,6 +11,7 @@ export default [
   route('sign-in', 'pages/ui/sign-in.tsx'),
 
   // user
+  route('users/:username/edit', 'pages/ui/edit-user.tsx'),
   route('users/:username', 'pages/ui/user.tsx'),
 
   // action
@@ -22,6 +23,7 @@ export default [
   route('api/auth/sign-in', 'api/auth/sign-in.ts'),
   route('api/auth/callback', 'api/auth/callback.ts'),
   route('api/auth/sign-out', 'api/auth/sign-out.ts'),
+  route('api/auth/withdrawal', 'api/auth/withdrawal.ts'),
 
   // story
   route('api/stories/list', 'api/stories/list.ts'),
@@ -30,6 +32,7 @@ export default [
 
   // user
   route('api/users', 'api/users/index.ts'),
+  route('api/users/:id', 'api/users/id.ts'),
 
   // all-route
   route('*', 'pages/ui/not-found.tsx'),

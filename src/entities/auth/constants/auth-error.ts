@@ -11,4 +11,8 @@ export const AUTH_ERROR = {
     message: '잘못된 요청입니다.',
     status: 400,
   },
+  WITHDRAWAL_FAILED: {
+    message: '회원 탈퇴에 실패했습니다.',
+    status: 500,
+  },
 };

@@ -6,6 +6,7 @@ import {
   ClipboardIcon,
   CodeIcon,
   EyeIcon,
+  FilePenIcon,
   FileTextIcon,
   InfoIcon,
   ItalicIcon,
@@ -15,13 +16,15 @@ import {
   LoaderCircleIcon,
   LogOutIcon,
   MoonIcon,
-  PencilLineIcon,
+  PenLineIcon,
   RssIcon,
   SaveIcon,
+  SettingsIcon,
   StrikethroughIcon,
   SunIcon,
   TableIcon,
   TriangleAlertIcon,
+  UserXIcon,
   XIcon,
 } from 'lucide-react';
 
@@ -29,12 +32,16 @@ const ICON_LIST = {
   // General icons
   signOut: LogOutIcon,
   preview: EyeIcon,
-  write: PencilLineIcon,
+  write: PenLineIcon,
+  edit: FilePenIcon,
   save: SaveIcon,
   latest: RssIcon,
   lightmode: SunIcon,
   darkmode: MoonIcon,
   close: XIcon,
+  settings: SettingsIcon,
+
+  withdrawal: UserXIcon,
 
   // api status icon
   error: CircleAlertIcon,

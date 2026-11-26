@@ -2,6 +2,7 @@ export * from './async-state';
 export * from './button';
 export * from './card';
 export * from './color-mode';
+export * from './confirm';
 export * from './feedback';
 export * from './icon';
 export * from './infinite-scroll-trigger';

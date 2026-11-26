@@ -1,17 +1,17 @@
 import { Button as BaseButton } from '@base-ui/react/button';
-import type { ComponentProps } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import { buttonVariants } from './button.css';
 
 type ButtonVariant = keyof typeof buttonVariants;
 
 type ButtonProps = Omit<
-  ComponentProps<typeof BaseButton>,
+  React.ComponentProps<typeof BaseButton>,
   'className' | 'render'
 > & {
   variant?: ButtonVariant;
   className?: string;
-  to?: ComponentProps<typeof Link>['to'];
+  to?: React.ComponentProps<typeof Link>['to'];
 };
 
 export const Button = ({

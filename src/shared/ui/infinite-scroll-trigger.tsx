@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import * as styles from './infinite-scroll-trigger.css';
 
 type InfiniteScrollTriggerProps = {
@@ -12,7 +12,7 @@ export const InfiniteScrollTrigger = ({
   enabled = true,
   rootMargin = '200px',
 }: InfiniteScrollTriggerProps) => {
-  const targetRef = useRef<HTMLDivElement>(null);
+  const targetRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const target = targetRef.current;

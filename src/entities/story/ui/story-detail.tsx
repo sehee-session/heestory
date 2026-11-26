@@ -9,14 +9,21 @@ export const StoryDetail = ({
   title,
   content,
   createdAt,
+  actions,
 }: Omit<
   Story,
   'id' | 'updatedAt' | 'userProfile' | 'userKey' | 'userProfiles'
->) => {
+> & {
+  actions?: React.ReactNode;
+}) => {
   return (
     <div className={styles.root}>
       <StoryThumbnail thumbnailUrl={thumbnailUrl ?? ''} />
-      <h1>{title}</h1>
+      <div className={styles.header}>
+        <h1>{title}</h1>
+        {actions && <div>{actions}</div>}
+      </div>
+
       <time dateTime={createdAt?.toISOString()}>{formatDate(createdAt)}</time>
       <MarkdownViewer content={content ?? ''} />
     </div>

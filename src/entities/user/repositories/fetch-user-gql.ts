@@ -10,6 +10,7 @@ export const FETCH_USER_BY_USERNAME_GQL = gql`
           avatar_url
           created_at
           updated_at
+          intro
         }
       }
     }

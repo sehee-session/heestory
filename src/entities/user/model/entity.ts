@@ -4,4 +4,5 @@ export type User = {
   avatarUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
+  intro: string | null;
 };

@@ -1,4 +1,4 @@
-import { data, useLoaderData } from 'react-router';
+import { data, useLoaderData, useRouteLoaderData } from 'react-router';
 import {
   createStoryRepository,
   STORY_ERROR,
@@ -11,6 +11,7 @@ import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { MarkdownToc } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/story';
+import { EditStoryNavigationButton } from './edit-story-navigation';
 import { WriteStoryNavigationButton } from './write-story-navigation';
 
 export const meta = () => [
@@ -49,6 +50,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
 };
 
 const Page = () => {
+  const { user } = useRouteLoaderData('root');
   const { story } = useLoaderData<typeof loader>();
 
   return (
@@ -60,7 +62,14 @@ const Page = () => {
           <SignOutForm key="sign-out" />,
         ]}
       />
-      <StoryDetail {...story} />
+      <StoryDetail
+        {...story}
+        actions={
+          user?.id === story.userKey ? (
+            <EditStoryNavigationButton id={story.id} key="edit" />
+          ) : undefined
+        }
+      />
       <MarkdownToc {...story} />
       {story.userProfiles && <UserInfo {...story.userProfiles} />}
     </>

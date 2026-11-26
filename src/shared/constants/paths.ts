@@ -8,7 +8,8 @@ export const PATHS = {
   },
   USERS: {
     BASE: '/users',
-    STORY: (username?: string) => `${PATHS.USERS.BASE}/${username}`,
+    DETAIL: (username?: string) => `${PATHS.USERS.BASE}/${username}`,
+    EDIT: (username?: string) => `${PATHS.USERS.BASE}/${username}/edit`,
   },
   AUTH: { SIGN_IN: '/sign-in' },
 } as const;

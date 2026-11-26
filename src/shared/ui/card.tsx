@@ -1,7 +1,7 @@
-import type { HTMLAttributes } from 'react';
+import React from 'react';
 import * as styles from './card.css';
 
-type CardProps = HTMLAttributes<HTMLDivElement>;
+type CardProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const Card = ({ className, ...props }: CardProps) => (
   <div

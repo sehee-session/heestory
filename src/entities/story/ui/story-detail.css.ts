@@ -6,6 +6,21 @@ export const root = style({
   padding: vars.spacing.md,
 });
 
+export const header = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: vars.spacing.sm,
+  alignItems: 'start',
+  justifyContent: 'space-between',
+});
+
+export const actions = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.sm,
+  flexDirection: 'row',
+});
+
 export const list = style({
   position: 'relative',
   display: 'flex',

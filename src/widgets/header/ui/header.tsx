@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import { ColorModeToggle } from '~/shared/ui';
 import * as styles from './header.css';
 
 type HeaderProps = {
   text: string;
-  actions?: ReactNode;
+  actions?: React.ReactNode;
 };
 
 export const Header = ({ text, actions }: HeaderProps) => {

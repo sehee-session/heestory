@@ -19,4 +19,8 @@ export const USER_ERROR = {
     status: 400,
     message: '사용자 이름이 필요합니다.',
   },
+  ID_REQUIRED: {
+    status: 400,
+    message: '사용자 ID가 필요합니다.',
+  },
 } as const;
