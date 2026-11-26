@@ -1,6 +1,6 @@
 import { data } from 'react-router';
 import { createStoryRepository } from '~/entities/story';
-import { cloudflareContext } from '~/shared/libs';
+import { cloudflareContext } from '~/shared/lib';
 import type { Route } from './+types/list';
 
 export const loader = async ({ request, context }: Route.LoaderArgs) => {

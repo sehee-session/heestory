@@ -7,7 +7,7 @@ import {
 } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
 import { PATHS } from '~/shared/constants/paths';
-import { cloudflareContext } from '~/shared/libs';
+import { cloudflareContext } from '~/shared/lib';
 import { Button } from '~/shared/ui';
 import { Icon } from '~/shared/ui/icon';
 import { Header } from '~/widgets/header';

@@ -5,7 +5,7 @@ import {
   subscribe,
   type ToastItem as ToastItemType,
   type ToastType,
-} from '../libs/toast-store';
+} from '../lib/toast-store';
 import { Button } from './button';
 import { Icon } from './icon';
 import * as styles from './toast-ui.css';

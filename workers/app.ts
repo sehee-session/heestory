@@ -1,5 +1,5 @@
 import { createRequestHandler, RouterContextProvider } from 'react-router';
-import { cloudflareContext } from '~/shared/libs';
+import { cloudflareContext } from '~/shared/lib';
 
 const requestHandler = createRequestHandler(
   () => import('virtual:react-router/server-build'),

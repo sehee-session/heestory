@@ -6,7 +6,7 @@ import {
 } from '~/entities/user';
 import { requireAuth } from '~/shared/auth';
 import { COMMON_ERROR } from '~/shared/constants';
-import { cloudflareContext } from '~/shared/libs';
+import { cloudflareContext } from '~/shared/lib';
 import { supabaseContext } from '~/shared/supabase';
 import type { Route } from './+types/id';
 

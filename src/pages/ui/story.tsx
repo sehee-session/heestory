@@ -7,7 +7,7 @@ import {
 } from '~/entities/story';
 import { UserInfo } from '~/entities/user';
 import { SignOutForm } from '~/features/auth';
-import { cloudflareContext } from '~/shared/libs/cloudflare';
+import { cloudflareContext } from '~/shared/lib/cloudflare';
 import { MarkdownToc } from '~/shared/ui';
 import { Header } from '~/widgets/header';
 import type { Route } from './+types/story';
