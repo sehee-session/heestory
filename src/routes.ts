@@ -23,6 +23,7 @@ export default [
   route('api/auth/sign-in', 'api/auth/sign-in.ts'),
   route('api/auth/callback', 'api/auth/callback.ts'),
   route('api/auth/sign-out', 'api/auth/sign-out.ts'),
+  route('api/auth/withdrawal', 'api/auth/withdrawal.ts'),
 
   // story
   route('api/stories/list', 'api/stories/list.ts'),
